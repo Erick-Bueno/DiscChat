@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-public class GuildDto {
+public class GuildDto
+{
     [Required(ErrorMessage = "Informe um nome ao servidor")]
-    public string serverName;
-    public Guid externalIdUser;
+    public string serverName { get; set; }
+    public Guid externalIdUser { get; set; }
 }

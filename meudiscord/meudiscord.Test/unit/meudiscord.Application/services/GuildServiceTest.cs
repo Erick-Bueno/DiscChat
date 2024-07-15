@@ -131,7 +131,7 @@ public class GuildServiceTest
         var guildService = new GuildService(guildRepositoryMock.Object, userRepositoryMock.Object, convertGuildDtoMock.Object);
 
         List<GuildLinq>? guildList = new List<GuildLinq>();
-        guildRepositoryMock.Setup(gr => gr.GetAllGuilds()).ReturnsAsync(guildList);
+        guildRepositoryMock.Setup(gr => gr.GetAllGuilds()).Returns(guildList);
         var result = await guildService.GetAllGuilds();
         var response = new ResponseError(400, "Nenhum servidor foi encontrado");
         Assert.Equal(response.status, result.status);
@@ -151,7 +151,7 @@ public class GuildServiceTest
             new GuildLinq(){externalId = Guid.NewGuid(), serverName = "teste"}
         };
 
-        guildRepositoryMock.Setup(gr => gr.GetAllGuilds()).ReturnsAsync(listGuildLinq);
+        guildRepositoryMock.Setup(gr => gr.GetAllGuilds()).Returns(listGuildLinq);
 
         var result = await guildService.GetAllGuilds() as ResponseAllGuilds;
         var response =  new ResponseAllGuilds(200, "Guildas encontradas", listGuildLinq);

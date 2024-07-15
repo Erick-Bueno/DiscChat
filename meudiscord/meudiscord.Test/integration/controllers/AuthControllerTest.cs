@@ -1,18 +1,17 @@
 using System.Net;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Newtonsoft.Json;
 using Xunit;
 [Collection("database")]
-public class AuthControllerTest : IClassFixture<MeuDiscordFactory>, IClassFixture<MeuDiscordFactoryWithData>
+public class AuthControllerTest : IClassFixture<MeuDiscordFactory>
 {
     private readonly MeuDiscordFactory _factory;
-    private readonly MeuDiscordFactoryWithData _factoryWithData;
-    public AuthControllerTest(MeuDiscordFactory factory, MeuDiscordFactoryWithData factoryWithData)
+    public AuthControllerTest(MeuDiscordFactory factory)
     {
         _factory = factory;
-        _factoryWithData = factoryWithData;
     }
     [Fact]
     public async void should_return_badrequest_invalid_email_when_user_login()
@@ -110,7 +109,15 @@ public class AuthControllerTest : IClassFixture<MeuDiscordFactory>, IClassFixtur
     [Fact]
     public async void should_return_badrequest_password_incorrect_when_user_login()
     {
-        var client = _factoryWithData.CreateClient();
+        using (var scope = _factory.Services.CreateScope())
+        {
+            var scopedServices = scope.ServiceProvider;
+            var db = scopedServices.GetRequiredService<AppDbContext>();
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            InitializeDbForTests(db);
+        }
+        var client = _factory.CreateClient();
         var request = new UserLoginDto
         {
             email = "erickjb93@gmail.com",
@@ -127,7 +134,15 @@ public class AuthControllerTest : IClassFixture<MeuDiscordFactory>, IClassFixtur
     [Fact]
     public async void should_return_ok_when_user_login()
     {
-        var client = _factoryWithData.CreateClient();
+        using (var scope = _factory.Services.CreateScope())
+        {
+            var scopedServices = scope.ServiceProvider;
+            var db = scopedServices.GetRequiredService<AppDbContext>();
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            InitializeDbForTests(db);
+        }
+        var client = _factory.CreateClient();
         var request = new UserLoginDto
         {
             email = "erickjb93@gmail.com",
@@ -212,30 +227,51 @@ public class AuthControllerTest : IClassFixture<MeuDiscordFactory>, IClassFixtur
         Assert.Contains("Informe uma senha", passwordErrors);
     }
     [Fact]
-      public async void should_return_badrequest_email_already_registred_when_user_register()
-      {
-          var client = _factoryWithData.CreateClient();
-          var request = new UserRegisterDto("erick", "erickjb93@gmail.com", "Sirlei231@");
-          var response = await client.PostAsJsonAsync("api/Auth/register", request);
-          var responseContent = await response.Content.ReadAsStringAsync();
-          var registerResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
-          Assert.NotNull(response);
-          Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-          Assert.Equal(400, registerResponse.status);
-          Assert.Equal("Email ja cadastrado", registerResponse.message);
+    public async void should_return_badrequest_email_already_registred_when_user_register()
+    {
+        using (var scope = _factory.Services.CreateScope())
+        {
+            var scopedServices = scope.ServiceProvider;
+            var db = scopedServices.GetRequiredService<AppDbContext>();
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            InitializeDbForTests(db);
+        }
+        var client = _factory.CreateClient();
+        var request = new UserRegisterDto("erick", "erickjb93@gmail.com", "Sirlei231@");
+        var response = await client.PostAsJsonAsync("api/Auth/register", request);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var registerResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        Assert.NotNull(response);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal(400, registerResponse.status);
+        Assert.Equal("Email ja cadastrado", registerResponse.message);
 
-      }
-      [Fact]
-      public async void should_return_ok_when_user_register()
-      {
-          var client = _factory.CreateClient();
-          var request = new UserRegisterDto("erick", "erickjb93@gmail.com", "Sirlei231@");
-          var response = await client.PostAsJsonAsync("api/auth/register", request);
-          var responseContent = await response.Content.ReadAsStringAsync();
-          var registerResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
-          Assert.NotNull(response);
-          Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-          Assert.Equal(201, registerResponse.status);
-          Assert.Equal("úsuario cadastrado com sucesso", registerResponse.message);
-      } 
+    }
+    [Fact]
+    public async void should_return_ok_when_user_register()
+    {
+        var client = _factory.CreateClient();
+        var request = new UserRegisterDto("erick", "erickjb93@gmail.com", "Sirlei231@");
+        var response = await client.PostAsJsonAsync("api/auth/register", request);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var registerResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        Assert.NotNull(response);
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        Assert.Equal(201, registerResponse.status);
+        Assert.Equal("úsuario cadastrado com sucesso", registerResponse.message);
+    }
+    private void InitializeDbForTests(AppDbContext db)
+    {
+        var user = new UserModel("erick", "erickjb93@gmail.com", "$2a$12$TyTP3Zj.VQsDgPbf9h7Tvu7bMR1J8fXDnBo7pXxns0Sz0/3E15VMe")
+        {
+            externalId = Guid.Parse("04b460bd-001e-482d-8f40-5f329b83de94")
+        };
+        db.users.Add(user);
+        db.SaveChanges();
+
+        var server = new ServerModel("teste22", user.id);
+        db.servers.Add(server);
+        db.SaveChanges();
+    }
 }

@@ -17,7 +17,6 @@ public class MeuDiscordFactory : WebApplicationFactory<Program>
     }
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        //analisar
 
         builder.UseEnvironment("Development");
         builder.ConfigureServices(Services =>
@@ -25,14 +24,7 @@ public class MeuDiscordFactory : WebApplicationFactory<Program>
             Services.RemoveAll(typeof(DbContextOptions<AppDbContext>));
             Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(_dbFixture.connectionString, ServerVersion.AutoDetect(_dbFixture.connectionString)));
 
-            var serviceProvider = Services.BuildServiceProvider();
-            using(var scope = serviceProvider.CreateScope()){
-                var scopedServices = scope.ServiceProvider;
-                var db = scopedServices.GetRequiredService<AppDbContext>();
-                db.Database.EnsureDeleted();
-                db.Database.EnsureCreated();
-            }
-              
+         
       
         });
         builder.ConfigureAppConfiguration((context, configuration) =>
@@ -40,7 +32,7 @@ public class MeuDiscordFactory : WebApplicationFactory<Program>
             configuration.AddEnvironmentVariables();
 
             configuration.AddInMemoryCollection(new[]{
-                new KeyValuePair<string,string>("ConnectionString:CONNECTION_STRING", _dbFixture.connectionString)
+                new KeyValuePair<string,string>("ConnectionStrings:CONNECTION_STRING", _dbFixture.connectionString)
             });
         });
     }

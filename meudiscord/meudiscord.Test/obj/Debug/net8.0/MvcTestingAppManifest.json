@@ -1,6 +1,6 @@
 {
-  "meudiscord.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "c:\\Users\\erick\\Documents\\Linguas-20220714T235342Z-001\\Linguas\\meudiscord\\backend\\meudiscord\\meudiscord.Api",
-  "meudiscord.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "c:\\Users\\erick\\Documents\\Linguas-20220714T235342Z-001\\Linguas\\meudiscord\\backend\\meudiscord\\meudiscord.Application",
-  "meudiscord.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "c:\\Users\\erick\\Documents\\Linguas-20220714T235342Z-001\\Linguas\\meudiscord\\backend\\meudiscord\\meudiscord.Domain",
-  "meudiscord.Infra, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "c:\\Users\\erick\\Documents\\Linguas-20220714T235342Z-001\\Linguas\\meudiscord\\backend\\meudiscord\\meudiscord.Infra"
+  "meudiscord.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\erick\\Documents\\GitHub\\MeuDiscordBack\\meudiscord\\meudiscord.Api",
+  "meudiscord.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\erick\\Documents\\GitHub\\MeuDiscordBack\\meudiscord\\meudiscord.Application",
+  "meudiscord.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\erick\\Documents\\GitHub\\MeuDiscordBack\\meudiscord\\meudiscord.Domain",
+  "meudiscord.Infra, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\erick\\Documents\\GitHub\\MeuDiscordBack\\meudiscord\\meudiscord.Infra"
 }

@@ -16,6 +16,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddInfrastructure();
+        builder.Services.AddSignalR();
         builder.Services.AddAuthentication(x =>
         {
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -35,6 +36,7 @@ public class Program
         });
 
         var app = builder.Build();
+        app.MapHub<ChatHub>("/chat");
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

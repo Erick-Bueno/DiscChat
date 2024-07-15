@@ -22,12 +22,17 @@ public class GuildRepository : IGuildRepository
         _appDbContext.SaveChanges();
     }
 
+    public ServerModel FindGuildByExternalId(Guid externalId)
+    {
+        return _appDbContext.servers.Where(s => s.externalId == externalId).FirstOrDefault();
+    }
+
     public ServerModel FindServerByExternalIdServerAndIdUser(Guid externalIdServer, int userId)
     {
         return _appDbContext.servers.Where(s => s.externalId == externalIdServer && s.idUser == userId).FirstOrDefault();
     }
 
-    public async Task<List<GuildLinq>> GetAllGuilds()
+    public List<GuildLinq> GetAllGuilds()
     {
         return _appDbContext.servers.Select(s => new GuildLinq
         {

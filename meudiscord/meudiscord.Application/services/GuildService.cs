@@ -39,7 +39,7 @@ public class GuildService : IGuildService
 
     public async Task<Response> GetAllGuilds()
     {
-        var guilds = await _guildRepository.GetAllGuilds();
+        var guilds = _guildRepository.GetAllGuilds();
         if(guilds.Count == 0){
             return new ResponseError(400, "Nenhum servidor foi encontrado");
         }
