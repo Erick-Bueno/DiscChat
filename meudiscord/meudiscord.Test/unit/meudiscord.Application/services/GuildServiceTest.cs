@@ -20,7 +20,7 @@ public class GuildServiceTest
         userRepositoryMock.Setup(ur => ur.FindUserByExternalId(guildDto.externalIdUser)).Returns((UserLinq)null);
 
         var result = await guildService.CreateGuild(guildDto);
-        var response = new ResponseError(400, "Não foi possivel criar o servidor");
+        var response = new ResponseError(404, "Não foi possivel criar o servidor");
         Assert.Equal(response.message, result.message);
         Assert.Equal(response.status, result.status);
     }
@@ -49,7 +49,7 @@ public class GuildServiceTest
         convertGuildDtoMock.Setup(cg => cg.ConvertInServerModel(guildDto, userLinq.id)).Returns(serverModel);
         guildRepositoryMock.Setup(gp => gp.CreateGuild(serverModel));
         var result = await guildService.CreateGuild(guildDto);
-        var response = new ResponseCreateGuild(201, "Servidor criado com sucesso", serverModel.externalId);
+        var response = new ResponseCreateGuild(201, "Servidor criado com sucesso", serverModel.externalId, serverModel.serverName);
         Assert.Equal(response.message, result.message);
         Assert.Equal(response.status, result.status);
     }
@@ -66,7 +66,7 @@ public class GuildServiceTest
         userRepositoryMock.Setup(ur => ur.FindUserByExternalId(deleteGuildDto.externalIdUser)).Returns((UserLinq)null);
 
         var result = await guildService.DeleteGuild(deleteGuildDto);
-        var response = new ResponseError(400, "Não foi possivel deletar o servidor");
+        var response = new ResponseError(404, "Não foi possivel deletar o servidor");
         Assert.Equal(response.message, result.message);
         Assert.Equal(response.status, result.status);
 
@@ -133,7 +133,7 @@ public class GuildServiceTest
         List<GuildLinq>? guildList = new List<GuildLinq>();
         guildRepositoryMock.Setup(gr => gr.GetAllGuilds()).Returns(guildList);
         var result = await guildService.GetAllGuilds();
-        var response = new ResponseError(400, "Nenhum servidor foi encontrado");
+        var response = new ResponseError(404, "Nenhum servidor foi encontrado");
         Assert.Equal(response.status, result.status);
         Assert.Equal(response.message, result.message);
     }

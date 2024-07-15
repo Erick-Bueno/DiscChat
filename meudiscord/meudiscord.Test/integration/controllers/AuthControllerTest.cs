@@ -100,8 +100,8 @@ public class AuthControllerTest : IClassFixture<MeuDiscordFactory>
         var responseContent = await response.Content.ReadAsStringAsync();
         var loginResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Equal(400, loginResponse.status);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        Assert.Equal(404, loginResponse.status);
         Assert.Equal("Úsuario não cadastrado", loginResponse.message);
 
 

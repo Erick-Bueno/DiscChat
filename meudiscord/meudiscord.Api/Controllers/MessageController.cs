@@ -13,23 +13,40 @@ namespace Name.Controllers
         {
             _messageService = messageService;
         }
-
+        /// <summary>
+        ///  Buscar mensagens antigas em um canal
+        /// </summary>
+        /// <param name="externalIdChannel">Id externo do canal</param>
+        /// <returns>Lista de mensagens antigas em um chat</returns>
+        /// <response code="200">Sucesso</response>
+        /// <response code="400">Erro de validação</response>
+        /// <response code="500">Erro interno do servidor</response>
         [HttpGet("{externalIdChannel}")]
+        [ProducesResponseType(typeof(ResponseGetOldMessages), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
+
         public async Task<IActionResult> GetOldMessages([FromRoute] Guid externalIdChannel)
         {
             var response =  _messageService.GetOldMessages(externalIdChannel);  
-            if(response is ResponseError){
-                return BadRequest(response);
-            }
-            return Ok(response);
+            return this.ToActionResult(response);
         }
+        /// <summary>
+        /// Deletar uma mensagem no canal
+        /// </summary>
+        /// <param name="externalIdChannel">Id externo do canal</param>
+        /// <param name="externalIdMessage">Id externo da mensagem</param>
+        /// <returns>Sucesso</returns>
+        /// <response code="200">Sucesso</response>
+        /// <response code="404">Dado não encontrado</response>
+        /// <response code="500">Erro interno do servidor</response>
         [HttpDelete("{externalIdChannel}/{externalIdMessage}")]
+        [ProducesResponseType(typeof(ResponseSuccessDefault),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteMessageInChannel([FromRoute] Guid externalIdChannel, [FromRoute] Guid externalIdMessage) {
             var response = await _messageService.DeleteMessageInChannel(externalIdChannel, externalIdMessage);
-            if(response is ResponseError){
-                return BadRequest(response);
-            }
-            return Ok(response);
+            return this.ToActionResult(response);
         }
         
     }

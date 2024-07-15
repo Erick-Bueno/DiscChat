@@ -243,3 +243,5 @@ c:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Api\obj\Deb
 c:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Api\obj\Debug\net8.0\ref\meudiscord.Api.dll
 C:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Api\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Api\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
+C:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Api\bin\Debug\net8.0\meudiscord.Api.xml
+C:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Api\obj\Debug\net8.0\meudiscord.Api.xml

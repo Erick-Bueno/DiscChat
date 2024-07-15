@@ -13,24 +13,48 @@ namespace Name.Controllers
         {
             this._authService = authService;
         }
-
+        /// <summary>
+        /// Efetuar login
+        /// </summary>
+        /// <remarks>
+        /// {"email": "string",
+        ///"password": "string"}
+        /// </remarks>
+        /// <param name="userLogin">Dados de login do usuário</param>
+        /// <returns>Dados do usuário</returns>
+        /// <response code="200">Sucesso</response>
+        /// <response code="400">Erro de validação</response>
+        /// <response code="404">Dado não encontrado</response>
+        /// <response code="500">Erro interno do servidor</response>
         [HttpPost("login")]
+        [ProducesResponseType(typeof(ResponseAuth), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLogin)
         {
             var response = await _authService.Login(userLogin);
-            if(response is ResponseError){
-                return BadRequest(response);
-            }
-            return Ok(response);
+            return this.ToActionResult(response);
         }
+        /// <summary>
+        /// Efetuar registro
+        /// </summary>
+        /// <remarks>
+        /// {"name": "string","email": "string","password": "string"}
+        /// </remarks>
+        /// <param name="userRegister">Dados de registro do usuário</param>
+        /// <returns>Dados do usuário</returns>
+        /// <response code="201">Usuário cadastrado com sucesso</response>
+        /// <response code="400">Erro de validação</response>
+        /// <response code="500">Erro interno do servidor</response>
         [HttpPost("register")]
+        [ProducesResponseType(typeof(ResponseAuth),StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ResponseError), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegister)
         {
             var response = await _authService.Register(userRegister);
-            if(response is ResponseError){
-                return BadRequest(response);
-            }
-            return Created("localhost:7000", response);
+            return this.ToActionResult(response);
         }
     }
 }

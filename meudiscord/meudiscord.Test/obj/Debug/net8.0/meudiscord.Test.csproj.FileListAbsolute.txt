@@ -1012,3 +1012,4 @@ c:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Test\obj\De
 c:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Test\obj\Debug\net8.0\meudiscord.Test.genruntimeconfig.cache
 c:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Test\obj\Debug\net8.0\ref\meudiscord.Test.dll
 C:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Test\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
+C:\Users\erick\Documents\GitHub\MeuDiscordBack\meudiscord\meudiscord.Test\bin\Debug\net8.0\meudiscord.Api.xml

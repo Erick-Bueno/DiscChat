@@ -12,7 +12,7 @@ public class UserServiceTest
        var externalId = Guid.NewGuid();
        userRepositoryMock.Setup(ur => ur.FindUserByExternalId(externalId)).Returns((UserLinq)null);
        
-       var response = new ResponseError(400, "Usuário não encontrado");
+       var response = new ResponseError(404, "Usuário não encontrado");
        var result = await userService.FindUserAuthenticated(externalId);
 
        Assert.Equal(response.status, result.status);

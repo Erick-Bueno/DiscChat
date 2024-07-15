@@ -12,7 +12,7 @@ public class UserService : IUserService
     {
         var userFinded = _userRepository.FindUserByExternalId(externalId);
         if(userFinded == null){
-            return new ResponseError(400, "Usuário não encontrado");
+            return new ResponseError(404, "Usuário não encontrado");
         }
         return new ResponseUserData(200, "Usuário encontrado", userFinded.name, userFinded.email);
     }

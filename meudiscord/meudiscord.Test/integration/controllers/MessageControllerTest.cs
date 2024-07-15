@@ -72,8 +72,8 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
         var responseContent = await response.Content.ReadAsStringAsync();
         var responseDeleteMessage = JsonConvert.DeserializeObject<ResponseError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Equal(400, responseDeleteMessage.status);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        Assert.Equal(404, responseDeleteMessage.status);
         Assert.Equal("Canal não encontrado", responseDeleteMessage.message);
 
     }
@@ -93,8 +93,8 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
         var responseContent = await response.Content.ReadAsStringAsync();
         var responseDeleteMessage = JsonConvert.DeserializeObject<ResponseError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Equal(400, responseDeleteMessage.status);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        Assert.Equal(404, responseDeleteMessage.status);
         Assert.Equal("Mensagem não encontrada", responseDeleteMessage.message);
 
     }

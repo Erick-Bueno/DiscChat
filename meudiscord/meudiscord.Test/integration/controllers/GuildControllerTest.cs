@@ -32,8 +32,8 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         var responseContent = await response.Content.ReadAsStringAsync();
         var getAllGuildsResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Equal(400, getAllGuildsResponse.status);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        Assert.Equal(404, getAllGuildsResponse.status);
         Assert.Equal("Nenhum servidor foi encontrado", getAllGuildsResponse.message);
     }
     [Fact]
@@ -71,9 +71,9 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         var responseContent = await response.Content.ReadAsStringAsync();
         var createGuildResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         Assert.Equal("Não foi possivel criar o servidor", createGuildResponse.message);
-        Assert.Equal(400, createGuildResponse.status);
+        Assert.Equal(404, createGuildResponse.status);
     }
     [Fact]
     public async void should_return_error_server_name_when_create_guild()
@@ -142,9 +142,9 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         var responseContent = await response.Content.ReadAsStringAsync();
         var deleteGuildResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         Assert.Equal("Não foi possivel deletar o servidor", deleteGuildResponse.message);
-        Assert.Equal(400, deleteGuildResponse.status);
+        Assert.Equal(404, deleteGuildResponse.status);
     }
     [Fact]
     public async void should_return_badrequest_server_does_not_belong_to_the_user_when_delete_guild()

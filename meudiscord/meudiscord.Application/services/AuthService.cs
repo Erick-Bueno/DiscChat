@@ -25,7 +25,7 @@ public class AuthService : IAuthService
         var foundUser = _userRepository.FindUserByEmail(user.email);
         if(foundUser == null)
         {
-            return new ResponseError(400, "Úsuario não cadastrado");
+            return new ResponseError(404, "Úsuario não cadastrado");
         }
         var verifyPassword = _passwordService.VerifyPassword(user.password, foundUser.password);
         if(verifyPassword == false)

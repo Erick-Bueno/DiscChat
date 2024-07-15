@@ -17,9 +17,13 @@ public class ChannelRepository : IChannelRepository
         return channel;
     }
 
-    public List<ChannelModel> GetAllChannels(int serverId)
+    public List<GetAllChannelsLinq> GetAllChannels(int serverId)
     {
-        return _appDbContext.channels.Where(c => c.serverId == serverId).ToList();
+        return _appDbContext.channels.Where(c => c.serverId == serverId)
+        .Select(c => new GetAllChannelsLinq{
+            channelName = c.name,
+            channelExternalId = c.externalId,
+        }).ToList();
     }
 
     public ChannelModel GetChannelByExternalId(Guid externalId)

@@ -16,11 +16,11 @@ public class MessageService : IMessageService
     {
         var channelModel = _channelRepository.GetChannelByExternalId(externalIdChannel);
         if (channelModel == null){
-            return new ResponseError(400, "Canal não encontrado");
+            return new ResponseError(404, "Canal não encontrado");
         }
         var messageModel = _messageRepository.GetMessageByChannelIdAndExternalIdMessage(channelModel.id, externalIdMessage);
         if (messageModel == null){
-            return new ResponseError(400, "Mensagem não encontrada");
+            return new ResponseError(404, "Mensagem não encontrada");
         }
         await _messageRepository.DeleteMessageInChannel(messageModel);
         return new ResponseSuccessDefault(200, "Mensagem deletada com sucesso");

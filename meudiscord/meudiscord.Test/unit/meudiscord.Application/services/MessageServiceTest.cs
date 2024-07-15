@@ -71,7 +71,7 @@ public class MessageServiceTest
 
     var result = await messageService.DeleteMessageInChannel(channelModel.externalId, messageModel.externalId);
 
-    var response = new ResponseError(400, "Canal não encontrado");
+    var response = new ResponseError(404, "Canal não encontrado");
 
     Assert.Equal(response.message, result.message);
     Assert.Equal(response.status, result.status);
@@ -100,7 +100,7 @@ public class MessageServiceTest
 
     var result = await messageService.DeleteMessageInChannel(channelModel.externalId, messageModel.externalId);
 
-    var response = new ResponseError(400, "Mensagem não encontrada");
+    var response = new ResponseError(404, "Mensagem não encontrada");
 
     Assert.Equal(response.message, result.message);
     Assert.Equal(response.status, result.status);

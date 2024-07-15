@@ -13,15 +13,22 @@ namespace Name.Controllers
         {
             _userService = userService;
         }
-
+        /// <summary>
+        /// Busca dados do usuário autenticado
+        /// </summary>
+        /// <param name="externalId">Id externo do usuário autenticado</param>
+        /// <returns>Dados do usuário autenticado</returns>
+        /// <response code="200">Sucesso</response>
+        /// <response code="404">Dado não encontrado</response>
+        /// <response code="500">Erro interno do servidor</response>
         [HttpGet("{externalId}")]
+        [ProducesResponseType(typeof(ResponseUserData),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> FindUserAuthenticated([FromRoute] Guid externalId)
         {
             var response = await _userService.FindUserAuthenticated(externalId);
-            if(response is ResponseError){
-                return BadRequest(response);
-            }
-            return Ok(response);
+            return this.ToActionResult(response);
         }
     }
 }

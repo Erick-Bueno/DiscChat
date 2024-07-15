@@ -36,6 +36,7 @@ public class MessageRepository : IMessageRepository
         where message.idChannel == idChannel
         select new MessagesLinq
         {
+            externalIdMessage = message.externalId,
             message = message.message,
             userName = user.name,
         }).ToList();

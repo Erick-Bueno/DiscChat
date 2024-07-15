@@ -25,7 +25,7 @@ public class AuhServiceTest
 
         var result = await authService.Login(userLoginDto);
 
-        var response = new ResponseError(400, "Úsuario não cadastrado");
+        var response = new ResponseError(404, "Úsuario não cadastrado");
         Assert.Equal(response.message, result.message);
         Assert.Equal(response.status, result.status);
     }

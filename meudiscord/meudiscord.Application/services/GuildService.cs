@@ -16,18 +16,18 @@ public class GuildService : IGuildService
     {
         var user = _userRepository.FindUserByExternalId(guild.externalIdUser);
         if(user == null){
-            return new ResponseError(400, "Não foi possivel criar o servidor");
+            return new ResponseError(404, "Não foi possivel criar o servidor");
         }
         var serverModel = _convertGuildDto.ConvertInServerModel(guild, user.id);
         await _guildRepository.CreateGuild(serverModel);
-        return new ResponseCreateGuild(201, "Servidor criado com sucesso", serverModel.externalId);
+        return new ResponseCreateGuild(201, "Servidor criado com sucesso", serverModel.externalId, serverModel.serverName);
     }
 
     public async Task<Response> DeleteGuild(DeleteGuildDto guild)
     {
         var user = _userRepository.FindUserByExternalId(guild.externalIdUser);
         if(user == null){
-            return new ResponseError(400, "Não foi possivel deletar o servidor");
+            return new ResponseError(404, "Não foi possivel deletar o servidor");
         }
         var server = _guildRepository.FindServerByExternalIdServerAndIdUser(guild.externalIdServer, user.id);
         if(server == null){
@@ -41,7 +41,7 @@ public class GuildService : IGuildService
     {
         var guilds = _guildRepository.GetAllGuilds();
         if(guilds.Count == 0){
-            return new ResponseError(400, "Nenhum servidor foi encontrado");
+            return new ResponseError(404, "Nenhum servidor foi encontrado");
         }
         return new ResponseAllGuilds(200, "Guildas encontradas", guilds);
     }

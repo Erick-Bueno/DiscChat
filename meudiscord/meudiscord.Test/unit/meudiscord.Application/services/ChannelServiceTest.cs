@@ -102,8 +102,9 @@ public class ChannelServiceTest
         {
             serverId = serverModel.id
         };
-        var listChannels = new List<ChannelModel>(){
-            channelModel
+        var channelLinq = new GetAllChannelsLinq();
+        var listChannels = new List<GetAllChannelsLinq>(){
+            channelLinq
         };
         guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(channelDto.externalIdServer)).Returns(serverModel);
         channelRepositoryMock.Setup(cr => cr.GetAllChannels(serverModel.id)).Returns(listChannels);

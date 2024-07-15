@@ -29,9 +29,9 @@ public class UserControllerTest : IClassFixture<MeuDiscordFactory>
         var responseContent = await response.Content.ReadAsStringAsync();
         var createUserResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         Assert.Equal("Usuário não encontrado", createUserResponse.message);
-        Assert.Equal(400, createUserResponse.status);
+        Assert.Equal(404, createUserResponse.status);
     }
     [Fact]
     public async void should_return_ok_when_find_user_authenticated()

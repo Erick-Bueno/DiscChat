@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("meudiscord.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b799014efae988e6c2b355c96275210424edbfd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6e7de7edddab000fb09f80b37d1d290686fbaa89")]
 [assembly: System.Reflection.AssemblyProductAttribute("meudiscord.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("meudiscord.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
