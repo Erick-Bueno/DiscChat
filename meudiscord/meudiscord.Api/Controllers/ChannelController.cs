@@ -1,6 +1,6 @@
 namespace Name.Controllers
 {
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
@@ -21,7 +21,7 @@ namespace Name.Controllers
         /// <response code="200">Sucesso</response>
         /// <response code="400">Erro de validação</response>
         /// <response code="500">Erro interno do servidor</response>
-
+        [Authorize]
         [HttpGet("{externalIdServer}")]
 
         [ProducesResponseType(typeof(ResponseAllChannels), StatusCodes.Status200OK)]
@@ -43,6 +43,7 @@ namespace Name.Controllers
         /// <response code="201">Canal criado com sucesso</response>
         /// <response code="400">Erro de validação</response>
         /// <response code="500">Erro interno do servidor</response>
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(ResponseCreateChannel),StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ResponseError),StatusCodes.Status400BadRequest)]

@@ -1,6 +1,6 @@
 namespace Name.Controllers
 {
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
@@ -21,6 +21,7 @@ namespace Name.Controllers
         /// <response code="200">Sucesso</response>
         /// <response code="404">Dado não encontrado</response>
         /// <response code="500">Erro interno do servidor</response>
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(typeof(ResponseAllGuilds),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]
@@ -41,6 +42,7 @@ namespace Name.Controllers
         /// <response code="201">Servidor criado com sucesso</response>
         /// <response code="404">Dado não encontrado</response>
         /// <response code="500">Erro interno do servidor</response>
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(ResponseCreateGuild), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]
@@ -59,6 +61,7 @@ namespace Name.Controllers
         /// <response code="404">Dado não encontrado</response>
         /// <response code="400">Erro de validação</response>
         /// <response code="500">Erro interno do servidor</response>
+        [Authorize]
         [HttpDelete("{externalIdServer}/{externalIdUser}")]
         [ProducesResponseType(typeof(ResponseSuccessDefault),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResponseError),StatusCodes.Status400BadRequest)]

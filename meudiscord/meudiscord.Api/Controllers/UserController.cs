@@ -1,6 +1,6 @@
 namespace Name.Controllers
 {
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
@@ -21,6 +21,7 @@ namespace Name.Controllers
         /// <response code="200">Sucesso</response>
         /// <response code="404">Dado não encontrado</response>
         /// <response code="500">Erro interno do servidor</response>
+        [Authorize]
         [HttpGet("{externalId}")]
         [ProducesResponseType(typeof(ResponseUserData),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]

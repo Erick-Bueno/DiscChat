@@ -1,5 +1,8 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using Castle.Core.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
@@ -17,14 +20,24 @@ public class ChannelControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_error_enter_a_name_for_the_channel_when_create_channel()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
         var client = _factory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var request = new ChannelDto
         {
             channelName = "",
@@ -42,14 +55,23 @@ public class ChannelControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_badrequest_invalid_server_when_create_channel()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
         var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var request = new ChannelDto
         {
             channelName = "teste",
@@ -66,15 +88,24 @@ public class ChannelControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_ok_when_create_channel()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
         var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var request = new ChannelDto
         {
             channelName = "teste",
@@ -91,14 +122,24 @@ public class ChannelControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_badrequest_invalid_server_when_get_all_channels()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
         var client = _factory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.GetAsync($"api/Channels/{Guid.NewGuid()}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var createChannelResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
@@ -110,18 +151,27 @@ public class ChannelControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_Ok_when_get_all_channels()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
 
         var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.GetAsync($"api/Channels/{Guid.Parse("2b6829f6-795a-454a-9ab2-13893e415608")}");
-        var responseContent = await response.Content.ReadAsStringAsync() ;
+        var responseContent = await response.Content.ReadAsStringAsync();
         var createChannelResponse = JsonConvert.DeserializeObject<ResponseAllChannels>(responseContent);
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

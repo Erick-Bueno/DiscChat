@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
@@ -16,15 +17,23 @@ public class UserControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_badrequest_user_not_found()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-           
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
         var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.GetAsync($"api/User/{Guid.Parse("04b460bd-001e-482d-8f40-5f329b83de94")}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var createUserResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
@@ -36,15 +45,24 @@ public class UserControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_ok_when_find_user_authenticated()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
         var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.GetAsync($"api/User/{Guid.Parse("04b460bd-001e-482d-8f40-5f329b83de94")}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var createUserResponse = JsonConvert.DeserializeObject<ResponseUserData>(responseContent);

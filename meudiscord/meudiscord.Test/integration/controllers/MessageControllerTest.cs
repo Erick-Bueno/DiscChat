@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
@@ -16,16 +17,24 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_badrequest_invalid_channel_when_get_old_messages()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
 
         var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.GetAsync($"api/Messages/{Guid.NewGuid()}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var messageResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
@@ -38,17 +47,25 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_ok_when_get_old_messages()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
-
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
 
         var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.GetAsync($"api/Messages/{Guid.Parse("97a4bb9c-c0f4-4181-8992-e1c6a29ddb66")}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var messageResponse = JsonConvert.DeserializeObject<ResponseGetOldMessages>(responseContent);
@@ -60,14 +77,23 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_badrequest_channel_not_found_when_delete_message_in_channel()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
         var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.DeleteAsync($"api/Messages/{Guid.NewGuid()}/{Guid.NewGuid()}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var responseDeleteMessage = JsonConvert.DeserializeObject<ResponseError>(responseContent);
@@ -80,15 +106,24 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_bad_request_message_not_found_when_delete_message_in_channel()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
         var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.DeleteAsync($"api/Messages/{Guid.Parse("97a4bb9c-c0f4-4181-8992-e1c6a29ddb66")}/{Guid.NewGuid()}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var responseDeleteMessage = JsonConvert.DeserializeObject<ResponseError>(responseContent);
@@ -101,15 +136,24 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
     [Fact]
     public async void should_return_ok_when_delete_message_in_channel()
     {
+        string jwt;
         using (var scope = _factory.Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
+            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
+            var jwtService = new JwtService(configuration);
+            var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
+            {
+                id = 1
+            };
+            jwt = jwtService.GenerateAccessToken(user);
         }
         var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.DeleteAsync($"api/Messages/{Guid.Parse("97a4bb9c-c0f4-4181-8992-e1c6a29ddb66")}/{Guid.Parse("ee89105d-4b6a-4141-b085-3d544b35fd98")}");
         var responseContent = await response.Content.ReadAsStringAsync();
         var responseDeleteMessage = JsonConvert.DeserializeObject<ResponseError>(responseContent);
