@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("meudiscord.Infra")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+853e8ddebd90366b9ee1a37c7fe35e15a3814375")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ae7cda61c0cb9e88605607a6799a1627ff32addc")]
 [assembly: System.Reflection.AssemblyProductAttribute("meudiscord.Infra")]
 [assembly: System.Reflection.AssemblyTitleAttribute("meudiscord.Infra")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
