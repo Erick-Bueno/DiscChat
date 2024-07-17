@@ -36,11 +36,10 @@ public class UserControllerTest : IClassFixture<MeuDiscordFactory>
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.GetAsync($"api/User/{Guid.Parse("04b460bd-001e-482d-8f40-5f329b83de94")}");
         var responseContent = await response.Content.ReadAsStringAsync();
-        var createUserResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var createUserResponse = JsonConvert.DeserializeObject<UserNotFoundError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        Assert.Equal("Usuário não encontrado", createUserResponse.message);
-        Assert.Equal(404, createUserResponse.status);
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        Assert.IsType<UserNotFoundError>(createUserResponse);
     }
     [Fact]
     public async void should_return_ok_when_find_user_authenticated()

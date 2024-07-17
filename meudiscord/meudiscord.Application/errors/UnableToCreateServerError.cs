@@ -1,0 +1,1 @@
+public record UnableToCreateServerError():AppError("Não foi possivel criar o servidor", ErrorType.Business,nameof(UnableToCreateServerError));

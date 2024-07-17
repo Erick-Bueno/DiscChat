@@ -24,12 +24,12 @@ namespace Name.Controllers
         [Authorize]
         [HttpGet]
         [ProducesResponseType(typeof(ResponseAllGuilds),StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(NoServersWereFoundError),StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllGuilds()
         {
             var response = await _guildService.GetAllGuilds();
-            return this.ToActionResult(response);
+            return this.ResponseGetAllGuildsHelper(response);
         }
         /// <summary>
         /// Criar um servidor
@@ -45,11 +45,11 @@ namespace Name.Controllers
         [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(ResponseCreateGuild), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(UnableToCreateServerError),StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateGuild([FromBody] GuildDto guild){
             var response = await _guildService.CreateGuild(guild);
-            return this.ToActionResult(response);
+            return this.ResponseCreateGuildHelper(response);
         }
         /// <summary>
         /// Deletar um servidor
@@ -64,13 +64,13 @@ namespace Name.Controllers
         [Authorize]
         [HttpDelete("{externalIdServer}/{externalIdUser}")]
         [ProducesResponseType(typeof(ResponseSuccessDefault),StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(UnableToDeleteServerError),StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(TheServerDoesNotBelongToTheUserTryingToDeleItError),StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteGuild([FromRoute] Guid externalIdServer, [FromRoute] Guid externalIdUser){
             var deleteGuildDto = new DeleteGuildDto(externalIdServer, externalIdUser);
             var response = await _guildService.DeleteGuild(deleteGuildDto);
-            return this.ToActionResult(response);
+            return this.ResponseDeleteGuildHelper(response);
         }
     }
 }

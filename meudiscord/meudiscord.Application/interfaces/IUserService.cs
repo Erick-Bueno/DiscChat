@@ -1,3 +1,5 @@
+using OneOf;
+
 public interface IUserService{
-    public Task<Response> FindUserAuthenticated(Guid externalId);
+    public Task<OneOf<ResponseUserData, AppError>> FindUserAuthenticated(Guid externalId);
 }

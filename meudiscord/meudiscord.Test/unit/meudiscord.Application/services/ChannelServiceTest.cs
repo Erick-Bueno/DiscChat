@@ -1,11 +1,12 @@
 using System.Net;
 using Moq;
+using OneOf;
 using Xunit;
 
 public class ChannelServiceTest
 {
     [Fact]
-    public async void should_return_error_invalid_channel_when_create_server()
+    public async void should_return_error_invalid_server_when_create_channel()
     {
         var guildRepositoryMock = new Mock<IGuildRepository>();
         var channelRepositoryMock = new Mock<IChannelRepository>();
@@ -22,9 +23,7 @@ public class ChannelServiceTest
         guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(channelDto.externalIdServer)).Returns((ServerModel)null);
 
         var result = await channelService.CreateChannel(channelDto);
-        var response = new ResponseError(400, "Servidor invalido");
-        Assert.Equal(response.message, result.message);
-        Assert.Equal(response.status, result.status);
+        Assert.IsType<InvalidServerError>(result.AsT1);
     }
     [Fact]
     public async void should_create_channel_when_create_channel()
@@ -54,11 +53,11 @@ public class ChannelServiceTest
 
         var result = await channelService.CreateChannel(channelDto);
         var response = new ResponseCreateChannel(201, "Servidor criado com sucesso", channelModel.name, channelModel.externalId);
-        Assert.Equal(response.message, result.message);
-        Assert.Equal(response.status, result.status);
+        Assert.Equal(response.message, result.AsT0.message);
+        Assert.Equal(response.status, result.AsT0.status);
     }
     [Fact]
-    public async void should_return_error_invalid_channel_when_get_all_channels()
+    public async void should_return_error_invalid_server_when_get_all_channels()
     {
 
         var guildRepositoryMock = new Mock<IGuildRepository>();
@@ -76,9 +75,7 @@ public class ChannelServiceTest
         guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(channelDto.externalIdServer)).Returns((ServerModel)null);
 
         var result = await channelService.GetAllChannels(channelDto.externalIdServer);
-        var response = new ResponseError(400, "Servidor invalido");
-        Assert.Equal(response.message, result.message);
-        Assert.Equal(response.status, result.status);
+        Assert.IsType<InvalidServerError>(result.AsT1);
     }
     [Fact]
     public async void should_list_all_channels_when_get_all_channels()
@@ -108,10 +105,10 @@ public class ChannelServiceTest
         };
         guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(channelDto.externalIdServer)).Returns(serverModel);
         channelRepositoryMock.Setup(cr => cr.GetAllChannels(serverModel.id)).Returns(listChannels);
-        var result = await channelService.GetAllChannels(channelDto.externalIdServer) as ResponseAllChannels;
+        var result = await channelService.GetAllChannels(channelDto.externalIdServer);
         var response = new ResponseAllChannels(200, "Canais encontrados", listChannels);
-        Assert.Equal(response.message, result.message);
-        Assert.Equal(response.status, result.status);
-        Assert.Equal(response.channels, result.channels);
+        Assert.Equal(response.message, result.AsT0.message);
+        Assert.Equal(response.status, result.AsT0.status);
+        Assert.Equal(response.channels, result.AsT0.channels);
     }
 }

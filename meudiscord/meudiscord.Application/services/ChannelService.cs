@@ -1,4 +1,6 @@
 
+using OneOf;
+
 public class ChannelService : IChannelService
 {
     private readonly IGuildRepository _guildRepository;
@@ -12,24 +14,24 @@ public class ChannelService : IChannelService
         _convertChannelDto = convertChannelDto;
     }
 
-    public async Task<Response> CreateChannel(ChannelDto channel)
+    public async Task<OneOf<ResponseCreateChannel,AppError>> CreateChannel(ChannelDto channel)
     {
         var server = _guildRepository.FindGuildByExternalId(channel.externalIdServer);
-        if(server == null){
-            return new ResponseError (400, "Servidor invalido");
-        }
+        if(server == null)
+            return new InvalidServerError();
+
         var channelModel = _convertChannelDto.ConvertInChannelModel(channel, server.id);
         var newChannel = await _channelRepository.CreateChannel(channelModel);
         return new ResponseCreateChannel(201, "Servidor criado com sucesso", newChannel.name, newChannel.externalId);
     }
 
-    public async Task<Response> GetAllChannels(Guid externalServerId)
+    public async Task<OneOf<ResponseAllChannels,AppError>> GetAllChannels(Guid externalServerId)
     {
         var server = _guildRepository.FindGuildByExternalId(externalServerId);
-        if(server == null){
-            return new ResponseError (400, "Servidor invalido");
-        }
+        if(server == null)
+            return new InvalidServerError();
         var channels = _channelRepository.GetAllChannels(server.id);
         return new ResponseAllChannels(200, "Canais encontrados", channels);
     }
+    
 }

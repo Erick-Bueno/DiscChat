@@ -24,12 +24,12 @@ namespace Name.Controllers
         [Authorize]
         [HttpGet("{externalId}")]
         [ProducesResponseType(typeof(ResponseUserData),StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(UserNotFoundError),StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> FindUserAuthenticated([FromRoute] Guid externalId)
         {
             var response = await _userService.FindUserAuthenticated(externalId);
-            return this.ToActionResult(response);
+            return this.ResponseFindUserAuthenticatedHelper(response);
         }
     }
 }

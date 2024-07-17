@@ -1,5 +1,7 @@
+using OneOf;
+
 public interface IAuthService
 {
-    public Task<Response> Register(UserRegisterDto user);
-    public Task<Response> Login(UserLoginDto user);
+    public Task<OneOf<ResponseAuth, AppError>> Register(UserRegisterDto user);
+    public Task<OneOf<ResponseAuth, AppError>> Login(UserLoginDto user);
 }

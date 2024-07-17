@@ -1,4 +1,6 @@
 
+using OneOf;
+
 public class GuildService : IGuildService
 {
     private readonly IGuildRepository _guildRepository;
@@ -12,37 +14,35 @@ public class GuildService : IGuildService
         _convertGuildDto = convertGuildDto;
     }
 
-    public async Task<Response> CreateGuild(GuildDto guild)
+    public async Task<OneOf<ResponseCreateGuild,AppError>> CreateGuild(GuildDto guild)
     {
         var user = _userRepository.FindUserByExternalId(guild.externalIdUser);
-        if(user == null){
-            return new ResponseError(404, "Não foi possivel criar o servidor");
-        }
+        if(user == null)
+            return new UnableToCreateServerError();
         var serverModel = _convertGuildDto.ConvertInServerModel(guild, user.id);
         await _guildRepository.CreateGuild(serverModel);
         return new ResponseCreateGuild(201, "Servidor criado com sucesso", serverModel.externalId, serverModel.serverName);
     }
 
-    public async Task<Response> DeleteGuild(DeleteGuildDto guild)
+    public async Task<OneOf<ResponseSuccessDefault,AppError>> DeleteGuild(DeleteGuildDto guild)
     {
         var user = _userRepository.FindUserByExternalId(guild.externalIdUser);
-        if(user == null){
-            return new ResponseError(404, "Não foi possivel deletar o servidor");
-        }
+        if(user == null)
+            return new UnableToDeleteServerError();
         var server = _guildRepository.FindServerByExternalIdServerAndIdUser(guild.externalIdServer, user.id);
-        if(server == null){
-            return new ResponseError(400, "O servidor não pertence ao usuário que esta tentando deleta-lo");
-        }
+        if(server == null)
+            return new TheServerDoesNotBelongToTheUserTryingToDeleItError();
+        
         await _guildRepository.DeleteGuild(server);
         return new ResponseSuccessDefault(200, "Servidor deletado com sucesso");
     }
 
-    public async Task<Response> GetAllGuilds()
+    public async Task<OneOf<ResponseAllGuilds,AppError>> GetAllGuilds()
     {
         var guilds = _guildRepository.GetAllGuilds();
-        if(guilds.Count == 0){
-            return new ResponseError(404, "Nenhum servidor foi encontrado");
-        }
+        if(guilds.Count == 0)
+            return new NoServersWereFoundError();
+        
         return new ResponseAllGuilds(200, "Guildas encontradas", guilds);
     }
 }

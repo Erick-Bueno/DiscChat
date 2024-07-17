@@ -815,6 +815,15 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
+      "OneOf/3.0.271": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        }
+      },
       "Pomelo.EntityFrameworkCore.MySql/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -2353,6 +2362,7 @@
           "BCrypt": "1.0.0",
           "DotNetEnv": "3.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.0",
+          "OneOf": "3.0.271",
           "System.IdentityModel.Tokens.Jwt": "7.6.0",
           "meudiscord.Domain": "1.0.0"
         },
@@ -3604,6 +3614,21 @@
         "dotnet_library_license.txt",
         "netstandard.library.1.6.1.nupkg.sha512",
         "netstandard.library.nuspec"
+      ]
+    },
+    "OneOf/3.0.271": {
+      "sha512": "pqpqeK8xQGggExhr4tesVgJkjdn+9HQAO0QgrYV2hFjE3y90okzk1kQMntMiUOGfV7FrCUfKPaVvPBD4IANqKg==",
+      "type": "package",
+      "path": "oneof/3.0.271",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/OneOf.dll",
+        "lib/net45/OneOf.dll",
+        "lib/netstandard1.3/OneOf.dll",
+        "lib/netstandard2.0/OneOf.dll",
+        "oneof.3.0.271.nupkg.sha512",
+        "oneof.nuspec"
       ]
     },
     "Pomelo.EntityFrameworkCore.MySql/8.0.0": {

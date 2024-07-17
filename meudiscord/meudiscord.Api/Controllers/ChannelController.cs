@@ -25,12 +25,12 @@ namespace Name.Controllers
         [HttpGet("{externalIdServer}")]
 
         [ProducesResponseType(typeof(ResponseAllChannels), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(InvalidServerError), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllChannelsInServer([FromRoute] Guid externalIdServer)
         {
             var response = await _channelService.GetAllChannels(externalIdServer);
-            return this.ToActionResult(response);
+            return this.ResponseGetAllChannelsInServerHelper(response);
         }
         /// <summary>
         /// Criar um canal
@@ -45,12 +45,13 @@ namespace Name.Controllers
         /// <response code="500">Erro interno do servidor</response>
         [Authorize]
         [HttpPost]
-        [ProducesResponseType(typeof(ResponseCreateChannel),StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateChannel([FromBody] ChannelDto channel){
+        [ProducesResponseType(typeof(ResponseCreateChannel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(InvalidServerError), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateChannel([FromBody] ChannelDto channel)
+        {
             var response = await _channelService.CreateChannel(channel);
-            return this.ToActionResult(response);
+            return this.ResponseCreateChannelHelper(response);
         }
     }
 }

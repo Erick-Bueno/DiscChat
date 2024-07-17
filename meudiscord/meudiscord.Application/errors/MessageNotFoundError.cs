@@ -1,0 +1,1 @@
+public record MessageNotFoundError():AppError("Mensagem não encontrada", ErrorType.Business, nameof(MessageNotFoundError));

@@ -98,11 +98,10 @@ public class AuthControllerTest : IClassFixture<MeuDiscordFactory>
         };
         var response = await client.PostAsJsonAsync("api/Auth/login", request);
         var responseContent = await response.Content.ReadAsStringAsync();
-        var loginResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var loginResponse = JsonConvert.DeserializeObject<UserNotRegisteredError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        Assert.Equal(404, loginResponse.status);
-        Assert.Equal("Úsuario não cadastrado", loginResponse.message);
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        Assert.IsType<UserNotRegisteredError>(loginResponse);
 
 
     }
@@ -125,11 +124,10 @@ public class AuthControllerTest : IClassFixture<MeuDiscordFactory>
         };
         var response = await client.PostAsJsonAsync("api/Auth/login", request);
         var responseContent = await response.Content.ReadAsStringAsync();
-        var loginResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var loginResponse = JsonConvert.DeserializeObject<IncorrectPasswordError>(responseContent);
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Equal(400, loginResponse.status);
-        Assert.Equal("Senha incorreta", loginResponse.message);
+        Assert.IsType<IncorrectPasswordError>(loginResponse);
     }
     [Fact]
     public async void should_return_ok_when_user_login()
@@ -241,11 +239,11 @@ public class AuthControllerTest : IClassFixture<MeuDiscordFactory>
         var request = new UserRegisterDto("erick", "erickjb93@gmail.com", "Sirlei231@");
         var response = await client.PostAsJsonAsync("api/Auth/register", request);
         var responseContent = await response.Content.ReadAsStringAsync();
-        var registerResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var registerResponse = JsonConvert.DeserializeObject<EmailIsAlreadyRegisteredError>(responseContent);
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Equal(400, registerResponse.status);
-        Assert.Equal("Email ja cadastrado", registerResponse.message);
+        Assert.IsType<EmailIsAlreadyRegisteredError>(registerResponse);
+
 
     }
     [Fact]
@@ -255,7 +253,7 @@ public class AuthControllerTest : IClassFixture<MeuDiscordFactory>
         var request = new UserRegisterDto("erick", "erickjb93@gmail.com", "Sirlei231@");
         var response = await client.PostAsJsonAsync("api/auth/register", request);
         var responseContent = await response.Content.ReadAsStringAsync();
-        var registerResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var registerResponse = JsonConvert.DeserializeObject<ResponseAuth>(responseContent);
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(201, registerResponse.status);

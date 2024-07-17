@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "YYFcdr/hMfzYXDYaOZcudug/1LkdUy3NS2My0yHv+GbnszPDY/7kU6yrnQ68ab9f3sdbR0FtZOpshQa+po+noA==",
+  "dgSpecHash": "euqAA90U041uYyQ0AhaSIyyWA7P6TrYzaCviqZCSRs/QNZ+nuJpGHClM4JPgIrAG+2qb8Qn9EArTu0P6aNtjrQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\erick\\Documents\\GitHub\\MeuDiscordBack\\meudiscord\\meudiscord.Infra\\meudiscord.Infra.csproj",
   "expectedPackageFiles": [
@@ -42,6 +42,7 @@
     "C:\\Users\\erick\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\mysqlconnector\\2.3.5\\mysqlconnector.2.3.5.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
+    "C:\\Users\\erick\\.nuget\\packages\\oneof\\3.0.271\\oneof.3.0.271.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\8.0.0\\pomelo.entityframeworkcore.mysql.8.0.0.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",

@@ -1,0 +1,1 @@
+public record NoServersWereFoundError():AppError("Nenhum servidor foi encontrado", ErrorType.Business, nameof(NoServersWereFoundError));

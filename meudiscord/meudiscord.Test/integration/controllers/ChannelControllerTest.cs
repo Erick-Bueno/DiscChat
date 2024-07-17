@@ -79,14 +79,13 @@ public class ChannelControllerTest : IClassFixture<MeuDiscordFactory>
         };
         var response = await client.PostAsJsonAsync("api/Channels", request);
         var responseContent = await response.Content.ReadAsStringAsync();
-        var createChannelResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var createChannelResponse = JsonConvert.DeserializeObject<InvalidServerError>(responseContent);
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Equal(400, createChannelResponse.status);
-        Assert.Equal("Servidor invalido", createChannelResponse.message);
+        Assert.IsType<InvalidServerError>(createChannelResponse);
     }
     [Fact]
-    public async void should_return_ok_when_create_channel()
+    public async void should_return_created_when_create_channel()
     {
         string jwt;
         using (var scope = _factory.Services.CreateScope())
@@ -142,11 +141,10 @@ public class ChannelControllerTest : IClassFixture<MeuDiscordFactory>
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.GetAsync($"api/Channels/{Guid.NewGuid()}");
         var responseContent = await response.Content.ReadAsStringAsync();
-        var createChannelResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var createChannelResponse = JsonConvert.DeserializeObject<InvalidServerError>(responseContent);
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Equal(400, createChannelResponse.status);
-        Assert.Equal("Servidor invalido", createChannelResponse.message);
+        Assert.IsType<InvalidServerError>(createChannelResponse);
     }
     [Fact]
     public async void should_return_Ok_when_get_all_channels()

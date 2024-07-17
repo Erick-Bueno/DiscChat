@@ -1,4 +1,6 @@
+using OneOf;
+
 public interface IChannelService{
-    public Task<Response>  GetAllChannels(Guid externalServerId);
-    public Task<Response> CreateChannel (ChannelDto channel);
+    public Task<OneOf<ResponseAllChannels,AppError>>  GetAllChannels(Guid externalServerId);
+    public Task<OneOf<ResponseCreateChannel,AppError>> CreateChannel (ChannelDto channel);
 }

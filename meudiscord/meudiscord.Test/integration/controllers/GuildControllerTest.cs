@@ -39,11 +39,10 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.GetAsync("api/Guilds");
         var responseContent = await response.Content.ReadAsStringAsync();
-        var getAllGuildsResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var getAllGuildsResponse = JsonConvert.DeserializeObject<NoServersWereFoundError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        Assert.Equal(404, getAllGuildsResponse.status);
-        Assert.Equal("Nenhum servidor foi encontrado", getAllGuildsResponse.message);
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        Assert.IsType<NoServersWereFoundError>(getAllGuildsResponse);
     }
     [Fact]
     public async void should_return_ok_when_get_all_guilds()
@@ -103,11 +102,11 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         };
         var response = await client.PostAsJsonAsync("api/Guilds", request);
         var responseContent = await response.Content.ReadAsStringAsync();
-        var createGuildResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var createGuildResponse = JsonConvert.DeserializeObject<UnableToCreateServerError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        Assert.Equal("Não foi possivel criar o servidor", createGuildResponse.message);
-        Assert.Equal(404, createGuildResponse.status);
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        Assert.IsType<UnableToCreateServerError>(createGuildResponse);
+       
     }
     [Fact]
     public async void should_return_error_server_name_when_create_guild()
@@ -144,7 +143,7 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         Assert.Equal(400, createGuildResponse.status);
     }
     [Fact]
-    public async void should_return_ok_when_create_guild()
+    public async void should_return_created_when_create_guild()
     {
         string jwt;
         using (var scope = _factory.Services.CreateScope())
@@ -200,11 +199,10 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.DeleteAsync($"api/Guilds/{Guid.NewGuid()}/{Guid.NewGuid()}");
         var responseContent = await response.Content.ReadAsStringAsync();
-        var deleteGuildResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var deleteGuildResponse = JsonConvert.DeserializeObject<UnableToDeleteServerError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        Assert.Equal("Não foi possivel deletar o servidor", deleteGuildResponse.message);
-        Assert.Equal(404, deleteGuildResponse.status);
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        Assert.IsType<UnableToDeleteServerError>(deleteGuildResponse);
     }
     [Fact]
     public async void should_return_badrequest_server_does_not_belong_to_the_user_when_delete_guild()
@@ -229,11 +227,11 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.DeleteAsync($"api/Guilds/{Guid.NewGuid()}/{Guid.Parse("04b460bd-001e-482d-8f40-5f329b83de94")}");
         var responseContent = await response.Content.ReadAsStringAsync();
-        var deleteGuildResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var deleteGuildResponse = JsonConvert.DeserializeObject<TheServerDoesNotBelongToTheUserTryingToDeleItError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(400, deleteGuildResponse.status);
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Equal("O servidor não pertence ao usuário que esta tentando deleta-lo", deleteGuildResponse.message);
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        Assert.IsType<TheServerDoesNotBelongToTheUserTryingToDeleItError>(deleteGuildResponse);
+        
     }
     [Fact]
     public async void should_return_ok_when_delete_guild()

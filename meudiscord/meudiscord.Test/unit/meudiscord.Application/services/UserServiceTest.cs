@@ -12,11 +12,9 @@ public class UserServiceTest
        var externalId = Guid.NewGuid();
        userRepositoryMock.Setup(ur => ur.FindUserByExternalId(externalId)).Returns((UserLinq)null);
        
-       var response = new ResponseError(404, "Usuário não encontrado");
        var result = await userService.FindUserAuthenticated(externalId);
 
-       Assert.Equal(response.status, result.status);
-       Assert.Equal(response.message, result.message);
+       Assert.IsType<UserNotFoundError>(result.AsT1);
     }
     [Fact]
     public async void should_find_user_authenticated()
@@ -29,7 +27,7 @@ public class UserServiceTest
        var response = new ResponseUserData(200, "Usuário encontrado", userLinq.name, userLinq.email);
        var result = await userService.FindUserAuthenticated(externalId);
 
-       Assert.Equal(response.status, result.status);
-       Assert.Equal(response.message, result.message);
+       Assert.Equal(response.status, result.AsT0.status);
+       Assert.Equal(response.message, result.AsT0.message);
     }
 }

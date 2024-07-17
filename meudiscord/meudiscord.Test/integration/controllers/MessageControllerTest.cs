@@ -37,11 +37,10 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.GetAsync($"api/Messages/{Guid.NewGuid()}");
         var responseContent = await response.Content.ReadAsStringAsync();
-        var messageResponse = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var messageResponse = JsonConvert.DeserializeObject<InvalidChannelError>(responseContent);
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Equal(400, messageResponse.status);
-        Assert.Equal("Canal invalido", messageResponse.message);
+        Assert.IsType<InvalidChannelError>(messageResponse);
     }
 
     [Fact]
@@ -96,11 +95,10 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.DeleteAsync($"api/Messages/{Guid.NewGuid()}/{Guid.NewGuid()}");
         var responseContent = await response.Content.ReadAsStringAsync();
-        var responseDeleteMessage = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var responseDeleteMessage = JsonConvert.DeserializeObject<ChannelNotFoundError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        Assert.Equal(404, responseDeleteMessage.status);
-        Assert.Equal("Canal não encontrado", responseDeleteMessage.message);
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        Assert.IsType<ChannelNotFoundError>(responseDeleteMessage);
 
     }
     [Fact]
@@ -126,11 +124,10 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.DeleteAsync($"api/Messages/{Guid.Parse("97a4bb9c-c0f4-4181-8992-e1c6a29ddb66")}/{Guid.NewGuid()}");
         var responseContent = await response.Content.ReadAsStringAsync();
-        var responseDeleteMessage = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var responseDeleteMessage = JsonConvert.DeserializeObject<MessageNotFoundError>(responseContent);
         Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        Assert.Equal(404, responseDeleteMessage.status);
-        Assert.Equal("Mensagem não encontrada", responseDeleteMessage.message);
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        Assert.IsType<MessageNotFoundError>(responseDeleteMessage);
 
     }
     [Fact]
@@ -156,7 +153,7 @@ public class MessageControllerTest : IClassFixture<MeuDiscordFactory>
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         var response = await client.DeleteAsync($"api/Messages/{Guid.Parse("97a4bb9c-c0f4-4181-8992-e1c6a29ddb66")}/{Guid.Parse("ee89105d-4b6a-4141-b085-3d544b35fd98")}");
         var responseContent = await response.Content.ReadAsStringAsync();
-        var responseDeleteMessage = JsonConvert.DeserializeObject<ResponseError>(responseContent);
+        var responseDeleteMessage = JsonConvert.DeserializeObject<ResponseSuccessDefault>(responseContent);
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Equal(200, responseDeleteMessage.status);

@@ -1,4 +1,6 @@
 
+using OneOf;
+
 public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
@@ -20,31 +22,27 @@ public class AuthService : IAuthService
         _tokenRepository = tokenRepository;
     }
 
-    public async Task<Response> Login(UserLoginDto user)
+    public async Task<OneOf<ResponseAuth, AppError>> Login(UserLoginDto user)
     {
         var foundUser = _userRepository.FindUserByEmail(user.email);
         if(foundUser == null)
-        {
-            return new ResponseError(404, "Úsuario não cadastrado");
-        }
+            return new UserNotRegisteredError();
         var verifyPassword = _passwordService.VerifyPassword(user.password, foundUser.password);
         if(verifyPassword == false)
-        {
-            return new ResponseError(400, "Senha incorreta");
-        }
+            return new IncorrectPasswordError();
+       
         var accesstoken = _jwtService.GenerateAccessToken(foundUser);
         var refreshToken = _jwtService.GenerateRefreshToken();
         await _tokenRepository.UpdateToken(foundUser.email, refreshToken);
         return new ResponseAuth(200, "úsuario logado com sucesso",refreshToken,accesstoken);
     }
 
-    public async Task<Response> Register(UserRegisterDto user)
+    public async Task<OneOf<ResponseAuth, AppError>> Register(UserRegisterDto user)
     {
         var foundUser = _userRepository.FindUserByEmail(user.email);
         if(foundUser != null)
-        {
-            return new ResponseError(400, "Email ja cadastrado");
-        }
+            return new EmailIsAlreadyRegisteredError();
+            
         var hashPassword = _passwordService.EncryptPassword(user.password);
         user.password = hashPassword;
         var userModel = _convertUserRegisterDto.convertInUserModel(user);

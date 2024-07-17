@@ -2,6 +2,7 @@ namespace Name.Controllers
 {
 
     using Microsoft.AspNetCore.Mvc;
+    using OneOf.Types;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -28,13 +29,13 @@ namespace Name.Controllers
         /// <response code="500">Erro interno do servidor</response>
         [HttpPost("login")]
         [ProducesResponseType(typeof(ResponseAuth), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(UserNotRegisteredError), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IncorrectPasswordError), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLogin)
         {
             var response = await _authService.Login(userLogin);
-            return this.ToActionResult(response);
+            return this.ResponseAuthHelper(response);
         }
         /// <summary>
         /// Efetuar registro
@@ -48,13 +49,13 @@ namespace Name.Controllers
         /// <response code="400">Erro de validação</response>
         /// <response code="500">Erro interno do servidor</response>
         [HttpPost("register")]
-        [ProducesResponseType(typeof(ResponseAuth),StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ResponseError), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ResponseError),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ResponseAuth), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(EmailIsAlreadyRegisteredError), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegister)
         {
             var response = await _authService.Register(userRegister);
-            return this.ToActionResult(response);
+            return this.ResponseRegisterHelper(response);
         }
     }
 }

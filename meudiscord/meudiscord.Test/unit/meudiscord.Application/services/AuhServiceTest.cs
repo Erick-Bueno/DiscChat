@@ -25,9 +25,8 @@ public class AuhServiceTest
 
         var result = await authService.Login(userLoginDto);
 
-        var response = new ResponseError(404, "Úsuario não cadastrado");
-        Assert.Equal(response.message, result.message);
-        Assert.Equal(response.status, result.status);
+
+        Assert.IsType<UserNotRegisteredError>(result.AsT1);
     }
     [Fact]
     public async void should_return_error_password_incorrect_when_logging_in()
@@ -48,9 +47,7 @@ public class AuhServiceTest
         passwordServiceMock.Setup(p => p.VerifyPassword(userLoginDto.password, userModel.password)).Returns(false);
 
         var result = await authService.Login(userLoginDto);
-        var response = new ResponseError(400, "Senha incorreta");
-        Assert.Equal(response.message, result.message);
-        Assert.Equal(response.status, result.status);
+        Assert.IsType<IncorrectPasswordError>(result.AsT1);
     }
     [Fact]
     public async void should_login_in_user()
@@ -79,8 +76,8 @@ public class AuhServiceTest
 
         var response = new ResponseAuth(200, "úsuario logado com sucesso", refreshToken, accesstoken);
 
-        Assert.Equal(response.message, result.message);
-        Assert.Equal(response.status, result.status);
+        Assert.Equal(response.message, result.AsT0.message);
+        Assert.Equal(response.status, result.AsT0.status);
         Assert.Equal(response.refreshToken, refreshToken);
         Assert.Equal(response.accesstoken, accesstoken);
     }
@@ -103,10 +100,8 @@ public class AuhServiceTest
 
         var result = await authService.Register(userRegisterDto);
 
-        var response = new ResponseError(400, "Email ja cadastrado");
 
-        Assert.Equal(response.message, result.message);
-        Assert.Equal(response.status, result.status);
+        Assert.IsType<EmailIsAlreadyRegisteredError>(result.Value);
     }
     [Fact]
     public async void should_register_user()
@@ -141,11 +136,9 @@ public class AuhServiceTest
 
         var response = new ResponseAuth(201, "úsuario cadastrado com sucesso",refreshToken,accesstoken);
 
-        var result = await authService.Register(userRegisterDto) as ResponseAuth;
-        Assert.Equal(response.message, result.message);
-        Assert.Equal(response.status, result.status);
-        Assert.Equal(response.accesstoken, result.accesstoken);
-        Assert.Equal(response.refreshToken, result.refreshToken);
+        var result = await authService.Register(userRegisterDto);
+        Assert.True(result.IsT0);
+        Assert.IsType<ResponseAuth>(result.AsT0);
 
     }
 }

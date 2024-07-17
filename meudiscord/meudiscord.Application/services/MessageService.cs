@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Mvc;
+using OneOf;
 
 public class MessageService : IMessageService
 {
@@ -12,26 +13,24 @@ public class MessageService : IMessageService
         _messageRepository = messageRepository;
     }
 
-    public async Task<Response> DeleteMessageInChannel(Guid externalIdChannel, Guid externalIdMessage)
+    public async Task<OneOf<ResponseSuccessDefault, AppError>> DeleteMessageInChannel(Guid externalIdChannel, Guid externalIdMessage)
     {
         var channelModel = _channelRepository.GetChannelByExternalId(externalIdChannel);
-        if (channelModel == null){
-            return new ResponseError(404, "Canal não encontrado");
-        }
+        if (channelModel == null)
+            return new ChannelNotFoundError();
         var messageModel = _messageRepository.GetMessageByChannelIdAndExternalIdMessage(channelModel.id, externalIdMessage);
-        if (messageModel == null){
-            return new ResponseError(404, "Mensagem não encontrada");
-        }
+        if (messageModel == null)
+            return new MessageNotFoundError();
         await _messageRepository.DeleteMessageInChannel(messageModel);
         return new ResponseSuccessDefault(200, "Mensagem deletada com sucesso");
     }
     
-    public Response GetOldMessages(Guid externalIdChannel)
+    public OneOf<ResponseGetOldMessages,AppError> GetOldMessages(Guid externalIdChannel)
     {
         var channel = _channelRepository.GetChannelByExternalId(externalIdChannel);
-        if(channel == null){
-            return new ResponseError(400, "Canal invalido");
-        }
+        if(channel == null)
+            return new InvalidChannelError();
+    
         var oldMessages =  _messageRepository.GetOldMessages(channel.id);
         return new ResponseGetOldMessages(200, "Mensagens encontradas", oldMessages);
     }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sxbta7MDNrXhQoVcqUuK1m1ipkITZ6oLYrAEOytAI3Q9B40dSl8pj0cTCapPw44Hrro/4eWIP5k4Iyh4cZII9A==",
+  "dgSpecHash": "U1Sw7h/nmSAei8qROWILQ/dlFEBWMhb9OcOmeBWjPSVoMIXXX9kFrsZSepslAkUY3k4qMn/sOniZgr0U9vAoTA==",
   "success": true,
   "projectFilePath": "C:\\Users\\erick\\Documents\\GitHub\\MeuDiscordBack\\meudiscord\\meudiscord.Application\\meudiscord.Application.csproj",
   "expectedPackageFiles": [
@@ -20,6 +20,7 @@
     "C:\\Users\\erick\\.nuget\\packages\\microsoft.netcore.targets\\1.1.3\\microsoft.netcore.targets.1.1.3.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
+    "C:\\Users\\erick\\.nuget\\packages\\oneof\\3.0.271\\oneof.3.0.271.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",

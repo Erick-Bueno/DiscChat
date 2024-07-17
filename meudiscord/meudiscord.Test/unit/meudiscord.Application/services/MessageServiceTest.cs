@@ -18,9 +18,7 @@ public class MessageServiceTest
     channelRepositoryMock.Setup(cr => cr.GetChannelByExternalId(externalIdChannel)).Returns((ChannelModel)null);
 
     var result = messageService.GetOldMessages(externalIdChannel);
-    var response = new ResponseError(400, "Canal invalido");
-    Assert.Equal(response.message, result.message);
-    Assert.Equal(response.status, result.status);
+    Assert.IsType<InvalidChannelError>(result.AsT1);
   }
   [Fact]
   public async void should_return_old_messages_when_get_old_messages()
@@ -44,8 +42,8 @@ public class MessageServiceTest
 
     var result = messageService.GetOldMessages(channelModel.externalId);
 
-    Assert.Equal(response.message, result.message);
-    Assert.Equal(response.status, result.status);
+    Assert.Equal(response.message, result.AsT0.message);
+    Assert.Equal(response.status, result.AsT0.status);
 
   }
   [Fact]
@@ -71,10 +69,7 @@ public class MessageServiceTest
 
     var result = await messageService.DeleteMessageInChannel(channelModel.externalId, messageModel.externalId);
 
-    var response = new ResponseError(404, "Canal não encontrado");
-
-    Assert.Equal(response.message, result.message);
-    Assert.Equal(response.status, result.status);
+    Assert.IsType<ChannelNotFoundError>(result.AsT1);
   }
   [Fact]
   public async void should_return_error_message_not_found_when_delete_message_in_channel()
@@ -99,11 +94,7 @@ public class MessageServiceTest
     messageRepositoryMock.Setup(mr => mr.GetMessageByChannelIdAndExternalIdMessage(channelModel.id, messageModel.externalId)).Returns((MessageModel)null);
 
     var result = await messageService.DeleteMessageInChannel(channelModel.externalId, messageModel.externalId);
-
-    var response = new ResponseError(404, "Mensagem não encontrada");
-
-    Assert.Equal(response.message, result.message);
-    Assert.Equal(response.status, result.status);
+    Assert.IsType<MessageNotFoundError>(result.AsT1);
   }
   [Fact]
   public async void should_delete_message_when_delete_message_in_channel()
@@ -129,9 +120,9 @@ public class MessageServiceTest
     messageRepositoryMock.Setup(mr => mr.DeleteMessageInChannel(messageModel));
     var result = await messageService.DeleteMessageInChannel(channelModel.externalId, messageModel.externalId);
 
-    var response = new ResponseError(200, "Mensagem deletada com sucesso");
+    var response = new ResponseSuccessDefault(200, "Mensagem deletada com sucesso");
 
-    Assert.Equal(response.message, result.message);
-    Assert.Equal(response.status, result.status);
+    Assert.Equal(response.message, result.AsT0.message);
+    Assert.Equal(response.status, result.AsT0.status);
   }
 }
