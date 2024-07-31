@@ -15,6 +15,7 @@ public class Program
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddCors();
         builder.Services.AddSwaggerGen(c => {
             c.SwaggerDoc("v1", new OpenApiInfo{
                 Title = "MeuDiscord.Api",
@@ -68,6 +69,13 @@ public class Program
         });
 
         var app = builder.Build();
+        app.UseCors(c => {
+            c.AllowCredentials();
+            c.AllowAnyHeader();
+            c.AllowAnyMethod();
+            c.WithOrigins("http://localhost:4200");
+        
+        });
         app.MapHub<ChatHub>("/chat");
 
         // Configure the HTTP request pipeline.

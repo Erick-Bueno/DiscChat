@@ -1,1 +1,1 @@
-public record InvalidChannelError():AppError("Canal invalido", ErrorType.Validation, nameof(InvalidChannelError));
+public record InvalidChannelError():AppError("Canal invalido", ErrorType.Validation.ToString(), nameof(InvalidChannelError));

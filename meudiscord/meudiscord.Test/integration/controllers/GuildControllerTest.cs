@@ -24,10 +24,12 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
-            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+          var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+            var userRepository = scopedServices.GetRequiredService<IUserRepository>();
+            var tokenRepository = scopedServices.GetRequiredService<ITokenRepository>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-            var jwtService = new JwtService(configuration);
+            var jwtService = new JwtService(configuration, tokenRepository, userRepository);
             var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
             {
                 id = 1
@@ -52,11 +54,13 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
-            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+             var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+            var userRepository = scopedServices.GetRequiredService<IUserRepository>();
+            var tokenRepository = scopedServices.GetRequiredService<ITokenRepository>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
-            var jwtService = new JwtService(configuration);
+            var jwtService = new JwtService(configuration, tokenRepository, userRepository);
             var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
             {
                 id = 1
@@ -83,10 +87,12 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
-            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+          var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+            var userRepository = scopedServices.GetRequiredService<IUserRepository>();
+            var tokenRepository = scopedServices.GetRequiredService<ITokenRepository>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-            var jwtService = new JwtService(configuration);
+            var jwtService = new JwtService(configuration, tokenRepository, userRepository);
             var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
             {
                 id = 1
@@ -116,10 +122,12 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
-            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+         var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+            var userRepository = scopedServices.GetRequiredService<IUserRepository>();
+            var tokenRepository = scopedServices.GetRequiredService<ITokenRepository>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-            var jwtService = new JwtService(configuration);
+            var jwtService = new JwtService(configuration, tokenRepository, userRepository);
             var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
             {
                 id = 1
@@ -151,10 +159,12 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
             var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+            var userRepository = scopedServices.GetRequiredService<IUserRepository>();
+            var tokenRepository = scopedServices.GetRequiredService<ITokenRepository>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
-            var jwtService = new JwtService(configuration);
+            var jwtService = new JwtService(configuration, tokenRepository, userRepository);
             var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
             {
                 id = 1
@@ -184,11 +194,13 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
-            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+          var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+            var userRepository = scopedServices.GetRequiredService<IUserRepository>();
+            var tokenRepository = scopedServices.GetRequiredService<ITokenRepository>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
-            var jwtService = new JwtService(configuration);
+            var jwtService = new JwtService(configuration, tokenRepository, userRepository);
             var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
             {
                 id = 1
@@ -212,11 +224,13 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
         {
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
-            var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+           var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+            var userRepository = scopedServices.GetRequiredService<IUserRepository>();
+            var tokenRepository = scopedServices.GetRequiredService<ITokenRepository>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
-            var jwtService = new JwtService(configuration);
+            var jwtService = new JwtService(configuration, tokenRepository, userRepository);
             var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
             {
                 id = 1
@@ -242,10 +256,12 @@ public class GuildControllerTest : IClassFixture<MeuDiscordFactory>
             var scopedServices = scope.ServiceProvider;
             var db = scopedServices.GetRequiredService<AppDbContext>();
             var configuration = scopedServices.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+            var userRepository = scopedServices.GetRequiredService<IUserRepository>();
+            var tokenRepository = scopedServices.GetRequiredService<ITokenRepository>();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             InitializeDbForTests(db);
-            var jwtService = new JwtService(configuration);
+            var jwtService = new JwtService(configuration, tokenRepository, userRepository);
             var user = new UserModel("erick", "erickjb93@gmail.com", "sirlei231@")
             {
                 id = 1

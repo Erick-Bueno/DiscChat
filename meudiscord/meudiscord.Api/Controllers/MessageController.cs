@@ -25,7 +25,7 @@ namespace Name.Controllers
         [HttpGet("{externalIdChannel}")]
         [ProducesResponseType(typeof(ResponseGetOldMessages), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidChannelError),StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(InternalServerError),StatusCodes.Status500InternalServerError)]
 
         public async Task<IActionResult> GetOldMessages([FromRoute] Guid externalIdChannel)
         {
@@ -46,7 +46,7 @@ namespace Name.Controllers
         [ProducesResponseType(typeof(ResponseSuccessDefault),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ChannelNotFoundError),StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(MessageNotFoundError),StatusCodes.Status409Conflict)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(InternalServerError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteMessageInChannel([FromRoute] Guid externalIdChannel, [FromRoute] Guid externalIdMessage) {
             var response = await _messageService.DeleteMessageInChannel(externalIdChannel, externalIdMessage);
             return this.ResponseDeleteMessageInChannelHelper(response);

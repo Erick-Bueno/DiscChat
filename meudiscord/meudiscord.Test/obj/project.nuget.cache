@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "STScYPA+IsBR2NSaX08Z3wSSIQfk98gaGIfY8RlCeb1B8E1bN/USdx3T4lYnSac1/zW4QLbvBR1lAh2oRytIDA==",
+  "dgSpecHash": "yZv46QVxvYK94kIT3kqGACuAFNOsuH8SErFfLc1/ctE+vBufAGdhCTWZPDqn+lHaFvsy18t+xOdSyKlR76X2qw==",
   "success": true,
   "projectFilePath": "C:\\Users\\erick\\Documents\\GitHub\\MeuDiscordBack\\meudiscord\\meudiscord.Test\\meudiscord.Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\erick\\.nuget\\packages\\bcrypt\\1.0.0\\bcrypt.1.0.0.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
-    "C:\\Users\\erick\\.nuget\\packages\\dotnetenv\\3.0.0\\dotnetenv.3.0.0.nupkg.sha512",
+    "C:\\Users\\erick\\.nuget\\packages\\dotnetenv\\3.1.0\\dotnetenv.3.1.0.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\erick\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",

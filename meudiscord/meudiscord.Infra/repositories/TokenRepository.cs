@@ -10,6 +10,11 @@ public class TokenRepository : ITokenRepository
         _appDbContext = appDbContext;
     }
 
+    public TokenModel FindUserDataByToken(string refreshToken)
+    {
+        return _appDbContext.tokens.Where(t => t.token == refreshToken).FirstOrDefault();
+    }
+
     public async Task<TokenModel> RegisterToken(TokenModel token)
     {
         await _appDbContext.tokens.AddAsync(token);

@@ -25,7 +25,7 @@ namespace Name.Controllers
         [HttpGet("{externalId}")]
         [ProducesResponseType(typeof(ResponseUserData),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(UserNotFoundError),StatusCodes.Status409Conflict)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(InternalServerError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> FindUserAuthenticated([FromRoute] Guid externalId)
         {
             var response = await _userService.FindUserAuthenticated(externalId);

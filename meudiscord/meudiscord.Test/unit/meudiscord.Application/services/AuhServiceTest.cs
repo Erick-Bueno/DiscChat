@@ -79,7 +79,7 @@ public class AuhServiceTest
         Assert.Equal(response.message, result.AsT0.message);
         Assert.Equal(response.status, result.AsT0.status);
         Assert.Equal(response.refreshToken, refreshToken);
-        Assert.Equal(response.accesstoken, accesstoken);
+        Assert.Equal(response.accessToken, accesstoken);
     }
     [Fact]
     public async void should_return_error_email_already_registered_when_user_register()

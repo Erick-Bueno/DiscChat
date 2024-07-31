@@ -65,7 +65,7 @@ public class AuthControllerTest : IClassFixture<MeuDiscordFactory>
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         Assert.Equal(400, loginResponse.status);
-        Assert.Contains("A senha deve conter no minimo 8 caracteres, letra minúscula, letra maiúscula, numero e caractere especial", passwordErrors);
+        Assert.Contains("Informe uma senha valida", passwordErrors);
     }
     [Fact]
     public async void should_return_badrequest_password_is_required_when_user_login()
@@ -208,7 +208,7 @@ public class AuthControllerTest : IClassFixture<MeuDiscordFactory>
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         Assert.Equal(400, registerResponse.status);
-        Assert.Contains("A senha deve conter no minimo 8 caracteres, letra minúscula, letra maiúscula, numero e caractere especial", passwordErrors);
+        Assert.Contains("Informe uma senha valida", passwordErrors);
     }
     [Fact]
     public async void should_return_badrequest_password_is_required_when_user_register()

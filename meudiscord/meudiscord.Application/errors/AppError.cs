@@ -1,1 +1,1 @@
-public record AppError(string detail, ErrorType errorType,string errorCodeName);
+public record AppError(string detail, string errorType,string errorCodeName);

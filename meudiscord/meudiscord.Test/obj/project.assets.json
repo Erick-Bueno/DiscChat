@@ -27,7 +27,7 @@
           }
         }
       },
-      "DotNetEnv/3.0.0": {
+      "DotNetEnv/3.1.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "1.1.2",
@@ -3884,15 +3884,16 @@
         "readme.txt"
       ]
     },
-    "DotNetEnv/3.0.0": {
-      "sha512": "ddE17PtN+lijtSQH9NYk9vzCikHs1wPhiVxgwvLrWFPru0kYvh+8nSbjo18iZYFOznu83g5zrKrYYKHf3iK1vw==",
+    "DotNetEnv/3.1.0": {
+      "sha512": "gWbNFW8+m1U6wuD7YBOZw5sUOBxByZt9bur/4+wTC0+5pM3B9E7HUDk8mNqqyvEQ31q8+vtbG5qndJhVnGQDRg==",
       "type": "package",
-      "path": "dotnetenv/3.0.0",
+      "path": "dotnetenv/3.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
-        "dotnetenv.3.0.0.nupkg.sha512",
+        "README.md",
+        "dotnetenv.3.1.0.nupkg.sha512",
         "dotnetenv.nuspec",
         "lib/netstandard1.3/DotNetEnv.dll"
       ]
@@ -10629,6 +10630,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "DotNetEnv >= 3.1.0",
       "Microsoft.AspNetCore.Mvc.Testing >= 8.0.0",
       "Microsoft.AspNetCore.TestHost >= 8.0.0",
       "Microsoft.NET.Test.Sdk >= 17.10.0",
@@ -10683,6 +10685,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "DotNetEnv": {
+            "target": "Package",
+            "version": "[3.1.0, )"
+          },
           "Microsoft.AspNetCore.Mvc.Testing": {
             "target": "Package",
             "version": "[8.0.0, )"

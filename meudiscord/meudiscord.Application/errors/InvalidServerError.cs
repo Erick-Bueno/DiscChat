@@ -1,1 +1,1 @@
-public record InvalidServerError():AppError("Servidor invalido",ErrorType.Validation, nameof(InvalidServerError));
+public record InvalidServerError():AppError("Servidor invalido",ErrorType.Validation.ToString(), nameof(InvalidServerError));

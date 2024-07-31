@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("meudiscord.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+628fefff980876fc566ebd20f01caac2c0b1f6f0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f9a148384755247785c101b738bc7d2ebc8d44a3")]
 [assembly: System.Reflection.AssemblyProductAttribute("meudiscord.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("meudiscord.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

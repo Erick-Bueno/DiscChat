@@ -3,14 +3,18 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using OneOf;
 
 public class JwtService : IJwtService
 {
     private readonly IConfiguration configuration;
-
-    public JwtService(IConfiguration configuration)
+    private readonly ITokenRepository _tokenRepository;
+    private readonly IUserRepository _userRepository;
+    public JwtService(IConfiguration configuration, ITokenRepository tokenRepository, IUserRepository userRepository)
     {
         this.configuration = configuration;
+        _tokenRepository = tokenRepository;
+        _userRepository = userRepository;
     }
 
     public string GenerateAccessToken(UserModel user)
@@ -39,5 +43,45 @@ public class JwtService : IJwtService
         contentToken.SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
         var token = generateToken.CreateToken(contentToken);
         return generateToken.WriteToken(token);
+    }
+
+    public async Task<OneOf<ResponseNewTokens, AppError>> RefreshToken(string refreshToken)
+    {
+        var tokenIsValid = ValidateToken(refreshToken);
+        if (tokenIsValid == false)
+        {
+            return new InvalidRefreshToken();
+        }
+        var userData = _tokenRepository.FindUserDataByToken(refreshToken);
+        var userModel = _userRepository.FindUserByEmail(userData.email);
+
+        var newRefreshToken = GenerateRefreshToken();
+        var newAccessToken = GenerateAccessToken(userModel);
+
+        await _tokenRepository.UpdateToken(userModel.email, newRefreshToken);
+
+        return new ResponseNewTokens(200, "Tokens atualizados com sucesso", newRefreshToken, newAccessToken);
+    }
+
+    public bool ValidateToken(string token)
+    {
+        try
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("KeyRefreshToken"));
+            var tokenValidation = tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            }, out SecurityToken validatedToken);
+            return validatedToken != null;
+        }
+        catch (System.Exception ex)
+        {
+            return false;
+        }
+
     }
 }

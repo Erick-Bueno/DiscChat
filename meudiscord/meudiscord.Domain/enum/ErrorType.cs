@@ -1,4 +1,5 @@
 public enum ErrorType{
     Validation, 
-    Business
+    Business,
+    InternalServer
 }

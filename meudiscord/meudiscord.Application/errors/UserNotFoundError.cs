@@ -1,1 +1,1 @@
-public record UserNotFoundError():AppError("Usuário não encontrado", ErrorType.Business, nameof(UserNotFoundError));
+public record UserNotFoundError():AppError("Usuário não encontrado", ErrorType.Business.ToString(), nameof(UserNotFoundError));

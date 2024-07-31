@@ -31,7 +31,7 @@ namespace Name.Controllers
         [ProducesResponseType(typeof(ResponseAuth), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(UserNotRegisteredError), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IncorrectPasswordError), StatusCodes.Status409Conflict)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(InternalServerError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLogin)
         {
             var response = await _authService.Login(userLogin);
@@ -51,7 +51,7 @@ namespace Name.Controllers
         [HttpPost("register")]
         [ProducesResponseType(typeof(ResponseAuth), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(EmailIsAlreadyRegisteredError), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+         [ProducesResponseType(typeof(InternalServerError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegister)
         {
             var response = await _authService.Register(userRegister);
