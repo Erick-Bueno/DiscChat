@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure (this IServiceCollection services){
+    public static IServiceCollection AddInfrastructure (this IServiceCollection services, IConfiguration configuration){
         DotNetEnv.Env.Load();
-        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        var connectionString = configuration.GetConnectionString("default");
         services.AddDbContext<AppDbContext>(opt => opt.UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.29-mysql")));
         
         services.AddScoped<IUserRepository, UserRepository>();

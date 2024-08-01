@@ -48,7 +48,7 @@ public class Program
                 }
             });
         });
-        builder.Services.AddInfrastructure();
+        builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddSignalR();
         builder.Services.AddAuthentication(x =>
         {
