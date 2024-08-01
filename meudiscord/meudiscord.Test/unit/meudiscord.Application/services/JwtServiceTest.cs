@@ -16,7 +16,6 @@ public class JwtServiceTest
 
     var userModel = new UserModel("teste", "teste", "teste");
 
-    // Configuração para o teste
     var inMemorySettings = new Dictionary<string, string> {
             {"KeyRefreshToken", "adsdasdasdasdads"} // Substitua pela sua chave de teste
         };
@@ -40,7 +39,6 @@ public class JwtServiceTest
 
     var userModel = new UserModel("teste", "teste", "teste");
 
-    // Configuração para o teste
     var inMemorySettings = InMemorySettingsConfiguration.GetMemorySettings();
 
     Microsoft.Extensions.Configuration.IConfiguration configuration = new ConfigurationBuilder()
