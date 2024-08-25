@@ -1,0 +1,1 @@
+public record ServerNotFoundError() : AppError("Servidor não foi encontrado", ErrorType.Validation.ToString(), nameof(ServerNotFoundError));

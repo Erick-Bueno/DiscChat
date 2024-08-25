@@ -1,2 +1,3 @@
 .env
 InMemorySettingsConfiguration.cs
+appsettings.Development.json

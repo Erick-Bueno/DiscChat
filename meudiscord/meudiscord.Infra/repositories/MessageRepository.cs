@@ -34,9 +34,11 @@ public class MessageRepository : IMessageRepository
         from message in _appDbContext.messages
         join user in _appDbContext.users on message.idUser equals user.id
         where message.idChannel == idChannel
+        orderby message.createdAt ascending
         select new MessagesLinq
         {
             externalIdMessage = message.externalId,
+            externalIdUser = user.externalId,
             message = message.message,
             userName = user.name,
         }).ToList();

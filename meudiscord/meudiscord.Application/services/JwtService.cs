@@ -47,12 +47,14 @@ public class JwtService : IJwtService
 
     public async Task<OneOf<ResponseNewTokens, AppError>> RefreshToken(string refreshToken)
     {
+
         var tokenIsValid = ValidateToken(refreshToken);
         if (tokenIsValid == false)
         {
             return new InvalidRefreshToken();
         }
         var userData = _tokenRepository.FindUserDataByToken(refreshToken);
+        
         var userModel = _userRepository.FindUserByEmail(userData.email);
 
         var newRefreshToken = GenerateRefreshToken();

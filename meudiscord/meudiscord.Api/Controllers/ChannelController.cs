@@ -30,7 +30,7 @@ namespace Name.Controllers
         public async Task<IActionResult> GetAllChannelsInServer([FromRoute] Guid externalIdServer)
         {
             var response = await _channelService.GetAllChannels(externalIdServer);
-            return this.ResponseGetAllChannelsInServerHelper(response);
+            return this.HandlerGetAllChannelsInServerResponse(response);
         }
         /// <summary>
         /// Criar um canal
@@ -51,7 +51,7 @@ namespace Name.Controllers
         public async Task<IActionResult> CreateChannel([FromBody] ChannelDto channel)
         {
             var response = await _channelService.CreateChannel(channel);
-            return this.ResponseCreateChannelHelper(response);
+            return this.HandlerCreateChannelResponse(response);
         }
     }
 }

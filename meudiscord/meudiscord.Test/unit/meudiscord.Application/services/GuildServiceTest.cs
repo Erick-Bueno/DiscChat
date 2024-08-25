@@ -146,10 +146,41 @@ public class GuildServiceTest
         guildRepositoryMock.Setup(gr => gr.GetAllGuilds()).Returns(listGuildLinq);
 
         var result = await guildService.GetAllGuilds();
-        var response =  new ResponseAllGuilds(200, "Guildas encontradas", listGuildLinq);
+        var response = new ResponseAllGuilds(200, "Guildas encontradas", listGuildLinq);
         Assert.Equal(response.status, result.AsT0.status);
         Assert.Equal(response.message, result.AsT0.message);
         Assert.Equal(response.guilds, result.AsT0.guilds);
-        Assert.Equal(response.guilds.Count, 1); 
+        Assert.Equal(response.guilds.Count, 1);
+    }
+    [Fact]
+    public async void should_return_error_server_not_found_error_when_get_guild_by_external_id()
+    {
+
+        var guildRepositoryMock = new Mock<IGuildRepository>();
+        var userRepositoryMock = new Mock<IUserRepository>();
+        var convertGuildDtoMock = new Mock<IConvertGuildDto>();
+        var externalIdServer = Guid.NewGuid();
+        var guildService = new GuildService(guildRepositoryMock.Object, userRepositoryMock.Object, convertGuildDtoMock.Object);
+
+        guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(externalIdServer)).Returns((ServerModel)null);
+        var result = await guildService.GetGuildByExternalId(externalIdServer);
+        Assert.IsType<ServerNotFoundError>(result.AsT1);
+    }
+    [Fact]
+    public async void should_get_guild_by_external_id()
+    {
+        var guildRepositoryMock = new Mock<IGuildRepository>();
+        var userRepositoryMock = new Mock<IUserRepository>();
+        var convertGuildDtoMock = new Mock<IConvertGuildDto>();
+        var serverModel = new ServerModel("teste",1);
+        serverModel.externalId = Guid.NewGuid();
+        var guildService = new GuildService(guildRepositoryMock.Object, userRepositoryMock.Object, convertGuildDtoMock.Object);
+
+        guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(serverModel.externalId)).Returns(serverModel);
+        var result = await guildService.GetGuildByExternalId(serverModel.externalId);
+        var response = new ResponseGetGuildByExternalId(200, "Servidor encontrado", serverModel.serverName);
+        Assert.Equal(response.status, result.AsT0.status);
+        Assert.Equal(response.message, result.AsT0.message);
+        Assert.Equal(response.guildName, result.AsT0.guildName);
     }
 }

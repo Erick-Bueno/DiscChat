@@ -34,8 +34,9 @@ namespace Name.Controllers
         [ProducesResponseType(typeof(InternalServerError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLogin)
         {
+            Console.WriteLine(userLogin.password);
             var response = await _authService.Login(userLogin);
-            return this.ResponseAuthHelper(response);
+            return this.HandlerAuthResponse(response);
         }
         /// <summary>
         /// Efetuar registro
@@ -55,7 +56,7 @@ namespace Name.Controllers
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegister)
         {
             var response = await _authService.Register(userRegister);
-            return this.ResponseRegisterHelper(response);
+            return this.HandlerRegisterResponse(response);
         }
     }
 }

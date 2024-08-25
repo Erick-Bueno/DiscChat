@@ -16,6 +16,7 @@ public class GuildService : IGuildService
 
     public async Task<OneOf<ResponseCreateGuild,AppError>> CreateGuild(GuildDto guild)
     {
+        Console.WriteLine(guild.externalIdUser);
         var user = _userRepository.FindUserByExternalId(guild.externalIdUser);
         if(user == null)
             return new UnableToCreateServerError();
@@ -44,5 +45,14 @@ public class GuildService : IGuildService
             return new NoServersWereFoundError();
         
         return new ResponseAllGuilds(200, "Guildas encontradas", guilds);
+    }
+
+    public async Task<OneOf<ResponseGetGuildByExternalId, AppError>> GetGuildByExternalId(Guid externalIdGuild)
+    {
+        var guild = _guildRepository.FindGuildByExternalId(externalIdGuild);
+        if(guild == null){
+            return new ServerNotFoundError();
+        }
+        return new ResponseGetGuildByExternalId(200, "Servidor encontrado", guild.serverName);
     }
 }

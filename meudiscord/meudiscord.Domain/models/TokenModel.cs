@@ -15,5 +15,5 @@ public class TokenModel
     public string token { get; set; }
     
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public DateTime createdAt { get; set; } = DateTime.UtcNow;
+    public DateTime createdAt { get; private set; } = DateTime.UtcNow;
 }

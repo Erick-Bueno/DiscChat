@@ -29,7 +29,7 @@ namespace Name.Controllers
         public async Task<IActionResult> FindUserAuthenticated([FromRoute] Guid externalId)
         {
             var response = await _userService.FindUserAuthenticated(externalId);
-            return this.ResponseFindUserAuthenticatedHelper(response);
+            return this.HandlerFindUserAuthenticatedResponse(response);
         }
     }
 }

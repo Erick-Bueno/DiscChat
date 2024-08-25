@@ -30,7 +30,7 @@ namespace Name.Controllers
         public async Task<IActionResult> GetOldMessages([FromRoute] Guid externalIdChannel)
         {
             var response =  _messageService.GetOldMessages(externalIdChannel);  
-            return this.ResponseGetOldMessagesHelper(response);
+            return this.HandlerGetOldMessagesResponse(response);
         }
         /// <summary>
         /// Deletar uma mensagem no canal
@@ -49,7 +49,7 @@ namespace Name.Controllers
         [ProducesResponseType(typeof(InternalServerError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteMessageInChannel([FromRoute] Guid externalIdChannel, [FromRoute] Guid externalIdMessage) {
             var response = await _messageService.DeleteMessageInChannel(externalIdChannel, externalIdMessage);
-            return this.ResponseDeleteMessageInChannelHelper(response);
+            return this.HandlerDeleteMessageInChannelResponse(response);
         }
         
     }

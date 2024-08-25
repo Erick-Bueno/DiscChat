@@ -8,7 +8,7 @@ public class ChannelModel
     public string name { get; set; }
     public int serverId { get; set; }
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public DateTime createdAt { get; set; } = DateTime.UtcNow;
+    public DateTime createdAt { get; private set; } = DateTime.UtcNow;
     public ServerModel server { get; set; }
     public List<MessageModel> messages {get; set;}
 }

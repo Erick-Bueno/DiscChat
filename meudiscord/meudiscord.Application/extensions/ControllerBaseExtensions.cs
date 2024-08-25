@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using OneOf;
 using OneOf.Types;
 
-public static class ResponseHelper
+public static class ControllerBaseExtensions
 {
-    public static IActionResult ResponseAuthHelper(this ControllerBase controllerBase, OneOf<ResponseAuth, AppError> response)
+    public static IActionResult HandlerAuthResponse(this ControllerBase controllerBase, OneOf<ResponseAuth, AppError> response)
     {
         return response.Match(
                 response => controllerBase.Ok(response),
@@ -20,7 +20,7 @@ public static class ResponseHelper
                 }
             );
     }
-    public static IActionResult ResponseRegisterHelper(this ControllerBase controllerBase, OneOf<ResponseAuth, AppError> response)
+    public static IActionResult HandlerRegisterResponse(this ControllerBase controllerBase, OneOf<ResponseAuth, AppError> response)
     {
         return response.Match(
                       response => controllerBase.Created("Users/Guid", response),
@@ -31,7 +31,7 @@ public static class ResponseHelper
                           return controllerBase.StatusCode(500, new InternalServerError());
                       });
     }
-    public static IActionResult ResponseGetAllChannelsInServerHelper(this ControllerBase controllerBase, OneOf<ResponseAllChannels, AppError> response)
+    public static IActionResult HandlerGetAllChannelsInServerResponse(this ControllerBase controllerBase, OneOf<ResponseAllChannels, AppError> response)
     {
         return response.Match(
                 response => controllerBase.Ok(response),
@@ -44,7 +44,7 @@ public static class ResponseHelper
                 }
             );
     }
-    public static IActionResult ResponseCreateChannelHelper(this ControllerBase controllerBase, OneOf<ResponseCreateChannel, AppError> response)
+    public static IActionResult HandlerCreateChannelResponse(this ControllerBase controllerBase, OneOf<ResponseCreateChannel, AppError> response)
     {
         return response.Match(
               response => controllerBase.Created("localhost", response),
@@ -57,7 +57,7 @@ public static class ResponseHelper
               }
           );
     }
-    public static IActionResult ResponseGetAllGuildsHelper(this ControllerBase controllerBase, OneOf<ResponseAllGuilds, AppError> response)
+    public static IActionResult HandlerGetAllGuildsResponse(this ControllerBase controllerBase, OneOf<ResponseAllGuilds, AppError> response)
     {
         return response.Match(
               response => controllerBase.Ok(response),
@@ -69,7 +69,7 @@ public static class ResponseHelper
               }
           );
     }
-    public static IActionResult ResponseCreateGuildHelper(this ControllerBase controllerBase, OneOf<ResponseCreateGuild, AppError> response)
+    public static IActionResult HandlerCreateGuildResponse(this ControllerBase controllerBase, OneOf<ResponseCreateGuild, AppError> response)
     {
         return response.Match(
                 response => controllerBase.Created("localhost", response),
@@ -82,7 +82,7 @@ public static class ResponseHelper
 
             );
     }
-    public static IActionResult ResponseDeleteGuildHelper(this ControllerBase controllerBase, OneOf<ResponseSuccessDefault, AppError> response)
+    public static IActionResult HandlerDeleteGuildResponse(this ControllerBase controllerBase, OneOf<ResponseSuccessDefault, AppError> response)
     {
         return response.Match(
               response => controllerBase.Ok(response),
@@ -94,7 +94,7 @@ public static class ResponseHelper
               }
           );
     }
-    public static IActionResult ResponseGetOldMessagesHelper(this ControllerBase controllerBase, OneOf<ResponseGetOldMessages, AppError> response)
+    public static IActionResult HandlerGetOldMessagesResponse(this ControllerBase controllerBase, OneOf<ResponseGetOldMessages, AppError> response)
     {
         return response.Match(
             response => controllerBase.Ok(response),
@@ -106,7 +106,7 @@ public static class ResponseHelper
             }
         );
     }
-    public static IActionResult ResponseDeleteMessageInChannelHelper(this ControllerBase controllerBase, OneOf<ResponseSuccessDefault, AppError> response)
+    public static IActionResult HandlerDeleteMessageInChannelResponse(this ControllerBase controllerBase, OneOf<ResponseSuccessDefault, AppError> response)
     {
         return response.Match(
             response => controllerBase.Ok(response),
@@ -119,7 +119,7 @@ public static class ResponseHelper
             }
         );
     }
-    public static IActionResult ResponseFindUserAuthenticatedHelper(this ControllerBase controllerBase, OneOf<ResponseUserData, AppError> response)
+    public static IActionResult HandlerFindUserAuthenticatedResponse(this ControllerBase controllerBase, OneOf<ResponseUserData, AppError> response)
     {
         return response.Match(
             response => controllerBase.Ok(response),
@@ -132,9 +132,20 @@ public static class ResponseHelper
             }
         );
     }
-    public static IActionResult ResponseRefreshTokenHelper(this ControllerBase controllerBase, OneOf<ResponseNewTokens, AppError> response)
+    public static IActionResult HandlerRefreshTokenResponse(this ControllerBase controllerBase, OneOf<ResponseNewTokens, AppError> response)
     {
         return response.Match(
+           response => controllerBase.Ok(response),
+           erro =>
+           {
+               if (erro.errorType == ErrorType.Validation.ToString())
+                   return controllerBase.BadRequest(erro);
+               return controllerBase.StatusCode(500, new InternalServerError());
+           }
+       );
+    }
+    public static IActionResult HandlerGetGuildByExternalIdResponse(this ControllerBase controllerBase, OneOf<ResponseGetGuildByExternalId, AppError> response){
+         return response.Match(
            response => controllerBase.Ok(response),
            erro =>
            {

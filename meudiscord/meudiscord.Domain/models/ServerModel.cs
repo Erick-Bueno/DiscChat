@@ -8,14 +8,14 @@ public class ServerModel
         this.idUser = idUser;
     }
 
-    public int id { get; set; }
+    public int id { get;  set; }
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid externalId { get; set; } = Guid.NewGuid(); 
     public string serverName { get; set; }
     public int idUser { get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public DateTime createdAt { get; set; } = DateTime.UtcNow;
+    public DateTime createdAt { get; private set; } = DateTime.UtcNow;
     public UserModel user { get; set; }
     public List<ChannelModel> channels { get; set;}
 }
