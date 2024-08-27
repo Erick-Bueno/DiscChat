@@ -34,7 +34,6 @@ namespace Name.Controllers
         [ProducesResponseType(typeof(InternalServerError),StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLogin)
         {
-            Console.WriteLine(userLogin.password);
             var response = await _authService.Login(userLogin);
             return this.HandlerAuthResponse(response);
         }

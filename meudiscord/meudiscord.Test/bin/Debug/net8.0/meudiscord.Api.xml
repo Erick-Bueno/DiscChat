@@ -99,7 +99,7 @@
             <response code="400">Erro de validação</response>
             <response code="500">Erro interno do servidor</response>
         </member>
-        <member name="M:Name.Controllers.Jwt.RefreshToken(System.String)">
+        <member name="M:Name.Controllers.Jwt.RefreshToken(JwtDto)">
             <summary>
             Gerar novos tokens jwt
             </summary>
