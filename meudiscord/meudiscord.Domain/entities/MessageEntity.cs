@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class MessageModel
+public class MessageEntity
 {
     public int id { get;  set; }
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -9,6 +9,6 @@ public class MessageModel
     public int idChannel { get; set; }
     public string message { get; set;}
     public DateTime createdAt { get; private set;} = DateTime.UtcNow;
-    public UserModel user { get; set; }
-    public ChannelModel channel { get; set; }
+    public UserEntity user { get; set; }
+    public ChannelEntity channel { get; set; }
 }

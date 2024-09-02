@@ -17,7 +17,7 @@ public class JwtService : IJwtService
         _userRepository = userRepository;
     }
 
-    public string GenerateAccessToken(UserModel user)
+    public string GenerateAccessToken(UserEntity user)
     {
         var generateToken = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("KeyAccessToken"));
@@ -36,33 +36,43 @@ public class JwtService : IJwtService
 
     public string GenerateRefreshToken()
     {
-        var generateToken = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("KeyRefreshToken"));
-        var contentToken = new SecurityTokenDescriptor();
-        contentToken.Expires = DateTime.UtcNow.AddHours(2);
-        contentToken.SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
-        var token = generateToken.CreateToken(contentToken);
-        return generateToken.WriteToken(token);
+            var generateToken = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("KeyRefreshToken"));
+            var contentToken = new SecurityTokenDescriptor();
+            contentToken.Expires = DateTime.UtcNow.AddHours(2);
+            contentToken.SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+            var token = generateToken.CreateToken(contentToken);
+            return generateToken.WriteToken(token);
+
+
     }
 
     public async Task<OneOf<ResponseNewTokens, AppError>> RefreshToken(string refreshToken)
     {
-
-        var tokenIsValid = ValidateToken(refreshToken);
-        if (tokenIsValid == false)
+        try
         {
-            return new InvalidRefreshToken();
+            var tokenIsValid = ValidateToken(refreshToken);
+            if (tokenIsValid == false)
+            {
+                return new InvalidRefreshToken("Refresh token invalido");
+            }
+            var userData = _tokenRepository.FindUserDataByToken(refreshToken);
+
+            var userEntity = _userRepository.FindUserByEmail(userData.email);
+
+            var newRefreshToken = GenerateRefreshToken();
+            var newAccessToken = GenerateAccessToken(userEntity);
+
+            await _tokenRepository.UpdateToken(userEntity.email, newRefreshToken);
+
+            return new ResponseNewTokens(200, "Tokens atualizados com sucesso", newRefreshToken, newAccessToken);
         }
-        var userData = _tokenRepository.FindUserDataByToken(refreshToken);
-        
-        var userModel = _userRepository.FindUserByEmail(userData.email);
+        catch (Exception ex)
+        {
+            return new InternalServerError(ex.Message);
+        }
 
-        var newRefreshToken = GenerateRefreshToken();
-        var newAccessToken = GenerateAccessToken(userModel);
 
-        await _tokenRepository.UpdateToken(userModel.email, newRefreshToken);
-
-        return new ResponseNewTokens(200, "Tokens atualizados com sucesso", newRefreshToken, newAccessToken);
     }
 
     public bool ValidateToken(string token)
@@ -80,7 +90,7 @@ public class JwtService : IJwtService
             }, out SecurityToken validatedToken);
             return validatedToken != null;
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             return false;
         }

@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public class ChannelConfiguration : IEntityTypeConfiguration<ChannelModel>
+public class ChannelConfiguration : IEntityTypeConfiguration<ChannelEntity>
 {
-    public void Configure(EntityTypeBuilder<ChannelModel> builder)
+    public void Configure(EntityTypeBuilder<ChannelEntity> builder)
     {
         builder.HasKey(c => c.id);
         builder.HasIndex(c => c.externalId);

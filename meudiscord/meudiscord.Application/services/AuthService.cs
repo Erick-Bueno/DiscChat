@@ -24,44 +24,62 @@ public class AuthService : IAuthService
 
     public async Task<OneOf<ResponseAuth, AppError>> Login(UserLoginDto user)
     {
-        var foundUser = _userRepository.FindUserByEmail(user.email);
-        if(foundUser == null)
-            return new UserNotRegisteredError();
-        var verifyPassword = _passwordService.VerifyPassword(user.password, foundUser.password);
-        if(verifyPassword == false)
-            return new IncorrectPasswordError();
-       
-        var accesstoken = _jwtService.GenerateAccessToken(foundUser);
-        var refreshToken = _jwtService.GenerateRefreshToken();
-        await _tokenRepository.UpdateToken(foundUser.email, refreshToken);
-        return new ResponseAuth(200, "úsuario logado com sucesso",refreshToken,accesstoken);
+
+        try
+        {
+            var foundUser = _userRepository.FindUserByEmail(user.email);
+            if (foundUser == null)
+                return new UserNotRegisteredError("Email não cadastrado");
+            var verifyPassword = _passwordService.VerifyPassword(user.password, foundUser.password);
+            if (verifyPassword == false)
+                return new IncorrectPasswordError("Senha incorreta");
+
+            var accesstoken = _jwtService.GenerateAccessToken(foundUser);
+            var refreshToken = _jwtService.GenerateRefreshToken();
+            await _tokenRepository.UpdateToken(foundUser.email, refreshToken);
+            return new ResponseAuth(200, "úsuario logado com sucesso", refreshToken, accesstoken);
+        }
+        catch (Exception ex)
+        {
+            return new InternalServerError(ex.Message);
+        }
+
     }
 
     public async Task<OneOf<ResponseAuth, AppError>> Register(UserRegisterDto user)
     {
-        var foundUser = _userRepository.FindUserByEmail(user.email);
-        if(foundUser != null)
-            return new EmailIsAlreadyRegisteredError();
-            
-        var hashPassword = _passwordService.EncryptPassword(user.password);
-        user.password = hashPassword;
-        var userModel = _convertUserRegisterDto.convertInUserModel(user);
-        var accesstoken = _jwtService.GenerateAccessToken(userModel);
-        var refreshToken = _jwtService.GenerateRefreshToken();
-        var tokenModel = _convertToken.ConvertInTokenModel(refreshToken, userModel.email);
-        using(var transaction = _unitOfWork.BeginTransaction()){
-            try
+        try
+        {
+            var foundUser = _userRepository.FindUserByEmail(user.email);
+            if (foundUser != null)
+                return new EmailIsAlreadyRegisteredError("Email ja cadastrado");
+
+            var hashPassword = _passwordService.EncryptPassword(user.password);
+            user.password = hashPassword;
+            var userEntity = _convertUserRegisterDto.convertInUserEntity(user);
+            var accesstoken = _jwtService.GenerateAccessToken(userEntity);
+            var refreshToken = _jwtService.GenerateRefreshToken();
+            var tokenEntity= _convertToken.ConvertInTokenEntity(refreshToken, userEntity.email);
+            using (var transaction = _unitOfWork.BeginTransaction())
             {
-                await _userRepository.Register(userModel);
-                await _tokenRepository.RegisterToken(tokenModel);
-                transaction.Commit();
-                return new ResponseAuth(201, "úsuario cadastrado com sucesso",refreshToken,accesstoken);
-            }
-            catch (System.Exception ex)
-            {   
-                transaction.Rollback();
-                throw UserException.UserRegisterError("Erro ao cadastrar");
+                try
+                {
+                    await _userRepository.Register(userEntity);
+                    await _tokenRepository.RegisterToken(tokenEntity);
+                    transaction.Commit();
+                    return new ResponseAuth(201, "úsuario cadastrado com sucesso", refreshToken, accesstoken);
+                }
+                catch (System.Exception ex)
+                {
+                    transaction.Rollback();
+                    return new InternalServerError(ex.Message);
+                }
             }
         }
+        catch (Exception ex)
+        {
+            return new InternalServerError(ex.Message);
+        }
+
     }
 }

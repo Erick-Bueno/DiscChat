@@ -10,7 +10,7 @@ public class ChannelRepository : IChannelRepository
         _appDbContext = appDbContext;
     }
 
-    public async Task<ChannelModel> CreateChannel(ChannelModel channel)
+    public async Task<ChannelEntity> CreateChannel(ChannelEntity channel)
     {
         await _appDbContext.channels.AddAsync(channel);
         await _appDbContext.SaveChangesAsync();
@@ -26,7 +26,7 @@ public class ChannelRepository : IChannelRepository
         }).ToList();
     }
 
-    public ChannelModel GetChannelByExternalId(Guid externalId)
+    public ChannelEntity GetChannelByExternalId(Guid externalId)
     {
         return _appDbContext.channels.Where(c => c.externalId == externalId).FirstOrDefault();
     }

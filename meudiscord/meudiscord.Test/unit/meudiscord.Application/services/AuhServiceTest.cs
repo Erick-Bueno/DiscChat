@@ -21,7 +21,7 @@ public class AuhServiceTest
 
         var userLoginDto = new UserLoginDto();
 
-        userRepositoyMock.Setup(u => u.FindUserByEmail(userLoginDto.email)).Returns((UserModel)null);
+        userRepositoyMock.Setup(u => u.FindUserByEmail(userLoginDto.email)).Returns((UserEntity)null);
 
         var result = await authService.Login(userLoginDto);
 
@@ -42,7 +42,7 @@ public class AuhServiceTest
         var authService = new AuthService(userRepositoyMock.Object, passwordServiceMock.Object, convertUserRegisterDtoMock.Object, jwtServiceMock.Object, unitOfWorkMock.Object, convertTokenMock.Object, tokenRepositoryMock.Object);
 
         var userLoginDto = new UserLoginDto();
-        var userModel = new UserModel("erick", userLoginDto.email, userLoginDto.password);
+        var userModel = new UserEntity("erick", userLoginDto.email, userLoginDto.password);
         userRepositoyMock.Setup(u => u.FindUserByEmail(userLoginDto.email)).Returns(userModel);
         passwordServiceMock.Setup(p => p.VerifyPassword(userLoginDto.password, userModel.password)).Returns(false);
 
@@ -63,14 +63,14 @@ public class AuhServiceTest
         var authService = new AuthService(userRepositoyMock.Object, passwordServiceMock.Object, convertUserRegisterDtoMock.Object, jwtServiceMock.Object, unitOfWorkMock.Object, convertTokenMock.Object, tokenRepositoryMock.Object);
 
         var userLoginDto = new UserLoginDto();
-        var userModel = new UserModel("erick", userLoginDto.email, userLoginDto.password);
+        var userEntity = new UserEntity("erick", userLoginDto.email, userLoginDto.password);
         var refreshToken = "teste";
         var accesstoken = "teste";
-        userRepositoyMock.Setup(u => u.FindUserByEmail(userLoginDto.email)).Returns(userModel);
-        passwordServiceMock.Setup(p => p.VerifyPassword(userLoginDto.password, userModel.password)).Returns(true);
-        jwtServiceMock.Setup(j => j.GenerateAccessToken(userModel)).Returns(accesstoken);
+        userRepositoyMock.Setup(u => u.FindUserByEmail(userLoginDto.email)).Returns(userEntity);
+        passwordServiceMock.Setup(p => p.VerifyPassword(userLoginDto.password, userEntity.password)).Returns(true);
+        jwtServiceMock.Setup(j => j.GenerateAccessToken(userEntity)).Returns(accesstoken);
         jwtServiceMock.Setup(j => j.GenerateRefreshToken()).Returns(refreshToken);
-        tokenRepositoryMock.Setup(t => t.UpdateToken(userModel.email, refreshToken));
+        tokenRepositoryMock.Setup(t => t.UpdateToken(userEntity.email, refreshToken));
 
         var result = await authService.Login(userLoginDto);
 
@@ -95,7 +95,7 @@ public class AuhServiceTest
         var authService = new AuthService(userRepositoyMock.Object, passwordServiceMock.Object, convertUserRegisterDtoMock.Object, jwtServiceMock.Object, unitOfWorkMock.Object, convertTokenMock.Object, tokenRepositoryMock.Object);
 
         var userRegisterDto = new UserRegisterDto("erick", "erickjb93@gmail.com", "sirlei231");
-        var userModel = new UserModel("erick", userRegisterDto.email, userRegisterDto.password);
+        var userModel = new UserEntity("erick", userRegisterDto.email, userRegisterDto.password);
         userRepositoyMock.Setup(u => u.FindUserByEmail(userRegisterDto.email)).Returns(userModel);
 
         var result = await authService.Register(userRegisterDto);
@@ -121,18 +121,18 @@ public class AuhServiceTest
         var refreshToken = "teste";
         var accesstoken = "teste";
         var encryptPassword = "teste";
-        var userModel = new UserModel("erick", userRegisterDto.email, userRegisterDto.password);
-        var tokenModel = new TokenModel(userModel.email, refreshToken);
+        var userEntity = new UserEntity("erick", userRegisterDto.email, userRegisterDto.password);
+        var tokenEntity = new TokenEntity(userEntity.email, refreshToken);
 
-        userRepositoyMock.Setup(u => u.FindUserByEmail(userRegisterDto.email)).Returns((UserModel) null);
+        userRepositoyMock.Setup(u => u.FindUserByEmail(userRegisterDto.email)).Returns((UserEntity) null);
         passwordServiceMock.Setup(p => p.EncryptPassword(userRegisterDto.password)).Returns(encryptPassword);
-        convertUserRegisterDtoMock.Setup(c => c.convertInUserModel(userRegisterDto)).Returns(userModel);
-        jwtServiceMock.Setup(j => j.GenerateAccessToken(userModel)).Returns(accesstoken);
+        convertUserRegisterDtoMock.Setup(c => c.convertInUserEntity(userRegisterDto)).Returns(userEntity);
+        jwtServiceMock.Setup(j => j.GenerateAccessToken(userEntity)).Returns(accesstoken);
         jwtServiceMock.Setup(j => j.GenerateRefreshToken()).Returns(refreshToken);
-        convertTokenMock.Setup(c => c.ConvertInTokenModel(refreshToken, userModel.email)).Returns(tokenModel);
+        convertTokenMock.Setup(c => c.ConvertInTokenEntity(refreshToken, userEntity.email)).Returns(tokenEntity);
         unitOfWorkMock.Setup(u => u.BeginTransaction()).Returns(transactionMock.Object);
-        userRepositoyMock.Setup(u => u.Register(userModel));
-        tokenRepositoryMock.Setup(t => t.RegisterToken(tokenModel));
+        userRepositoyMock.Setup(u => u.Register(userEntity));
+        tokenRepositoryMock.Setup(t => t.RegisterToken(tokenEntity));
 
         var response = new ResponseAuth(201, "úsuario cadastrado com sucesso",refreshToken,accesstoken);
 

@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public class UserConfiguration : IEntityTypeConfiguration<UserModel>
+public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 {
-    public void Configure(EntityTypeBuilder<UserModel> builder)
+    public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
         builder.HasKey(u => u.id);
         builder.HasIndex(u => u.externalId);

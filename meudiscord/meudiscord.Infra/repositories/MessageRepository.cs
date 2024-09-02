@@ -11,19 +11,19 @@ public class MessageRepository : IMessageRepository
         _appDbContext = appDbContext;
     }
 
-    public async Task CreateMessage(MessageModel message)
+    public async Task CreateMessage(MessageEntity message)
     {
         await _appDbContext.messages.AddAsync(message);
         await _appDbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteMessageInChannel(MessageModel message)
+    public async Task DeleteMessageInChannel(MessageEntity message)
     {
         _appDbContext.messages.Remove(message);
         _appDbContext.SaveChanges();
     }
 
-    public MessageModel GetMessageByChannelIdAndExternalIdMessage(int channelId, Guid externalIdMessage)
+    public MessageEntity GetMessageByChannelIdAndExternalIdMessage(int channelId, Guid externalIdMessage)
     {
         return _appDbContext.messages.Where(m => m.idChannel == channelId && m.externalId == externalIdMessage).FirstOrDefault();
     }

@@ -1,5 +1,5 @@
 public interface ITokenRepository{
-    public Task<TokenModel> RegisterToken(TokenModel token);
+    public Task<TokenEntity> RegisterToken(TokenEntity token);
     public Task UpdateToken (string email, string newRefreshToken);
-    public TokenModel FindUserDataByToken(string refreshToken);
+    public TokenEntity FindUserDataByToken(string refreshToken);
 }

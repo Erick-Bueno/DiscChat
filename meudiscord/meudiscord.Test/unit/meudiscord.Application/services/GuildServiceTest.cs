@@ -42,9 +42,9 @@ public class GuildServiceTest
             id = 1,
             name = "erick"
         };
-        var serverModel = new ServerModel(guildDto.serverName, userLinq.id);
+        var serverModel = new ServerEntity(guildDto.serverName, userLinq.id);
         userRepositoryMock.Setup(ur => ur.FindUserByExternalId(guildDto.externalIdUser)).Returns(userLinq);
-        convertGuildDtoMock.Setup(cg => cg.ConvertInServerModel(guildDto, userLinq.id)).Returns(serverModel);
+        convertGuildDtoMock.Setup(cg => cg.ConvertInServerEntity(guildDto, userLinq.id)).Returns(serverModel);
         guildRepositoryMock.Setup(gp => gp.CreateGuild(serverModel));
         var result = await guildService.CreateGuild(guildDto);
         var response = new ResponseCreateGuild(201, "Servidor criado com sucesso", serverModel.externalId, serverModel.serverName);
@@ -84,7 +84,7 @@ public class GuildServiceTest
         };
         var deleteGuildDto = new DeleteGuildDto(Guid.NewGuid(), Guid.NewGuid());
         userRepositoryMock.Setup(ur => ur.FindUserByExternalId(deleteGuildDto.externalIdUser)).Returns(userLinq);
-        guildRepositoryMock.Setup(gr => gr.FindServerByExternalIdServerAndIdUser(deleteGuildDto.externalIdServer, userLinq.id)).Returns((ServerModel)null);
+        guildRepositoryMock.Setup(gr => gr.FindServerByExternalIdServerAndIdUser(deleteGuildDto.externalIdServer, userLinq.id)).Returns((ServerEntity)null);
 
         var result = await guildService.DeleteGuild(deleteGuildDto);
         Assert.IsType<TheServerDoesNotBelongToTheUserTryingToDeleItError>(result.AsT1);
@@ -105,7 +105,7 @@ public class GuildServiceTest
             name = "erick"
         };
         var deleteGuildDto = new DeleteGuildDto(Guid.NewGuid(), Guid.NewGuid());
-        var serverModel = new ServerModel("teste", userLinq.id);
+        var serverModel = new ServerEntity("teste", userLinq.id);
         userRepositoryMock.Setup(ur => ur.FindUserByExternalId(deleteGuildDto.externalIdUser)).Returns(userLinq);
         guildRepositoryMock.Setup(gr => gr.FindServerByExternalIdServerAndIdUser(deleteGuildDto.externalIdServer, userLinq.id)).Returns(serverModel);
         guildRepositoryMock.Setup(gr => gr.DeleteGuild(serverModel));
@@ -162,7 +162,7 @@ public class GuildServiceTest
         var externalIdServer = Guid.NewGuid();
         var guildService = new GuildService(guildRepositoryMock.Object, userRepositoryMock.Object, convertGuildDtoMock.Object);
 
-        guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(externalIdServer)).Returns((ServerModel)null);
+        guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(externalIdServer)).Returns((ServerEntity)null);
         var result = await guildService.GetGuildByExternalId(externalIdServer);
         Assert.IsType<ServerNotFoundError>(result.AsT1);
     }
@@ -172,7 +172,7 @@ public class GuildServiceTest
         var guildRepositoryMock = new Mock<IGuildRepository>();
         var userRepositoryMock = new Mock<IUserRepository>();
         var convertGuildDtoMock = new Mock<IConvertGuildDto>();
-        var serverModel = new ServerModel("teste",1);
+        var serverModel = new ServerEntity("teste",1);
         serverModel.externalId = Guid.NewGuid();
         var guildService = new GuildService(guildRepositoryMock.Object, userRepositoryMock.Object, convertGuildDtoMock.Object);
 

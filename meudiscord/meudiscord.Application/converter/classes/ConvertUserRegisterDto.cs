@@ -1,7 +1,7 @@
 public class ConvertUserRegisterDto : IConvertUserRegisterDto
 {
-    public UserModel convertInUserModel(UserRegisterDto user)
+    public UserEntity convertInUserEntity(UserRegisterDto user)
     {
-        return new UserModel(user.name, user.email, user.password);
+        return new UserEntity(user.name, user.email, user.password);
     }
 }

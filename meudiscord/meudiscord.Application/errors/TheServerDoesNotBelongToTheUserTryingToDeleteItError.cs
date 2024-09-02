@@ -1,1 +1,1 @@
-public record TheServerDoesNotBelongToTheUserTryingToDeleItError():AppError("O servidor não pertence ao usuário que esta tentando deleta-lo", ErrorType.Business.ToString(), nameof(TheServerDoesNotBelongToTheUserTryingToDeleItError));
+public record TheServerDoesNotBelongToTheUserTryingToDeleItError(string detail):AppError(ErrorType.Business.ToString(), nameof(TheServerDoesNotBelongToTheUserTryingToDeleItError));

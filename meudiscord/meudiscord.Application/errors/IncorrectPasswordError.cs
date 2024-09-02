@@ -1,1 +1,1 @@
-public record IncorrectPasswordError() : AppError("Senha incorreta", ErrorType.Validation.ToString(), nameof(IncorrectPasswordError));
+public record IncorrectPasswordError(string detail) : AppError(ErrorType.Validation.ToString(), nameof(IncorrectPasswordError));

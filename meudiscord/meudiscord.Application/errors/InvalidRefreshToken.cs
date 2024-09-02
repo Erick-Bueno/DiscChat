@@ -1,1 +1,1 @@
-public record InvalidRefreshToken():AppError("Refresh Token Invalido", ErrorType.Validation.ToString(), nameof(InvalidRefreshToken));
+public record InvalidRefreshToken(string detail):AppError(ErrorType.Validation.ToString(), nameof(InvalidRefreshToken));

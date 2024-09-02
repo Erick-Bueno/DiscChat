@@ -12,9 +12,17 @@ public class UserService : IUserService
 
     public async Task<OneOf<ResponseUserData, AppError>> FindUserAuthenticated(Guid externalId)
     {
-        var userFinded = _userRepository.FindUserByExternalId(externalId);
-        if(userFinded == null)
-            return new UserNotFoundError();
-        return new ResponseUserData(200, "Usuário encontrado", userFinded.name, userFinded.email);
+        try
+        {
+            var userFinded = _userRepository.FindUserByExternalId(externalId);
+            if (userFinded == null)
+                return new UserNotFoundError("Usuário não encontrado");
+            return new ResponseUserData(200, "Usuário encontrado", userFinded.name, userFinded.email);
+        }
+        catch (Exception ex)
+        {
+            return new InternalServerError(ex.Message); 
+        }
+
     }
 }

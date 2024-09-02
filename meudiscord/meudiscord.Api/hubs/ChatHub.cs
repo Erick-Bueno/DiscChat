@@ -20,7 +20,7 @@ public class ChatHub:Hub
         Console.WriteLine(externalIdUser);
         var user = _userRepository.FindUserByExternalId(externalIdUser);
         var channel = _channelRepository.GetChannelByExternalId(externalIdChannel);
-        var messageModel = _convertMessage.ConvertInMessageModel(user.id, channel.id, message);
+        var messageModel = _convertMessage.ConvertInMessageEntity(user.id, channel.id, message);
         await _messageRepository.CreateMessage(messageModel);
         
         await Clients.Group(externalIdChannel.ToString()).SendAsync("ReceiverMessage", message, user.name, externalIdUser, messageModel.externalId);

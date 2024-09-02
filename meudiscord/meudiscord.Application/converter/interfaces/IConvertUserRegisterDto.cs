@@ -1,3 +1,3 @@
 public interface IConvertUserRegisterDto {
-    public UserModel convertInUserModel(UserRegisterDto user);
+    public UserEntity convertInUserEntity(UserRegisterDto user);
 }

@@ -14,7 +14,7 @@ public class JwtServiceTest
     var tokenRepositoryMock = new Mock<ITokenRepository>();
     var userRepositoryMock = new Mock<IUserRepository>();
 
-    var userModel = new UserModel("teste", "teste", "teste");
+    var userModel = new UserEntity("teste", "teste", "teste");
 
     var inMemorySettings = new Dictionary<string, string> {
             {"KeyRefreshToken", "adsdasdasdasdads"} // Substitua pela sua chave de teste
@@ -37,7 +37,7 @@ public class JwtServiceTest
     var tokenRepositoryMock = new Mock<ITokenRepository>();
     var userRepositoryMock = new Mock<IUserRepository>();
 
-    var userModel = new UserModel("teste", "teste", "teste");
+    var userModel = new UserEntity("teste", "teste", "teste");
 
     var inMemorySettings = InMemorySettingsConfiguration.GetMemorySettings();
 

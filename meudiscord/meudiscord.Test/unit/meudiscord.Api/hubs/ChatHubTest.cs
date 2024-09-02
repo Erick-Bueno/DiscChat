@@ -14,23 +14,23 @@ public class ChatHubTest
        var clientsMock = new Mock<IHubCallerClients>();
        var clientProxyMock = new Mock<IClientProxy>();
 
-       var userModel = new UserModel("erick", "erickjb93@gmail.com", "sirlei231"){
+       var userModel = new UserEntity("erick", "erickjb93@gmail.com", "sirlei231"){
         externalId = Guid.NewGuid(),
         id = 1
        };
-       var channelModel = new ChannelModel {
+       var channelModel = new ChannelEntity {
         externalId = Guid.NewGuid(),
         id = 1
        };
        var userLinq = new UserLinq(){
         id = 1,
        };
-       var messageModel = new MessageModel();
+       var messageModel = new MessageEntity();
 
        clientsMock.Setup(c => c.Group(channelModel.externalId.ToString())).Returns(clientProxyMock.Object);
        userRepositoryMock.Setup(u => u.FindUserByExternalId(userModel.externalId)).Returns(userLinq);
        channelRepositoryMock.Setup(c => c.GetChannelByExternalId(channelModel.externalId)).Returns(channelModel);
-       convertMessageMock.Setup(cm => cm.ConvertInMessageModel(userModel.id, channelModel.id, "teste")).Returns(messageModel);
+       convertMessageMock.Setup(cm => cm.ConvertInMessageEntity(userModel.id, channelModel.id, "teste")).Returns(messageModel);
        messageRepositoryMock.Setup(mr => mr.CreateMessage(messageModel));
 
        var chatHub = new ChatHub(userRepositoryMock.Object, channelRepositoryMock.Object, convertMessageMock.Object, messageRepositoryMock.Object);

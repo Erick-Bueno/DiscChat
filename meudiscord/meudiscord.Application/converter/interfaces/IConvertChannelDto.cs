@@ -1,4 +1,4 @@
 public interface IConvertChannelDto
 {
-    public ChannelModel ConvertInChannelModel (ChannelDto channel, int serverId);
+    public ChannelEntity ConvertInChannelEntity (ChannelDto channel, int serverId);
 }

@@ -1,3 +1,3 @@
 public interface IConvertGuildDto{
-    public ServerModel ConvertInServerModel(GuildDto guild, int idUser);
+    public ServerEntity ConvertInServerEntity(GuildDto guild, int idUser);
 }

@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public class ServerConfiguration : IEntityTypeConfiguration<ServerModel>
+public class ServerConfiguration : IEntityTypeConfiguration<ServerEntity>
 {
-    public void Configure(EntityTypeBuilder<ServerModel> builder)
+    public void Configure(EntityTypeBuilder<ServerEntity> builder)
     {
         builder.HasKey(s => s.id);
         builder.HasIndex(u => u.externalId);

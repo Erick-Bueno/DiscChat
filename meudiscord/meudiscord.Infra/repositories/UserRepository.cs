@@ -9,8 +9,9 @@ public class UserRepository : IUserRepository
         _appDbContext = appDbContext;
     }
 
-    public UserModel FindUserByEmail(string email)
+    public UserEntity FindUserByEmail(string email)
     {
+
         return _appDbContext.users.Where(u => u.email == email).FirstOrDefault();
     }
 
@@ -27,7 +28,7 @@ public class UserRepository : IUserRepository
         .FirstOrDefault();
     }
 
-    public async Task<UserModel> Register(UserModel user)
+    public async Task<UserEntity> Register(UserEntity user)
     {
         await _appDbContext.users.AddAsync(user);
         await _appDbContext.SaveChangesAsync();

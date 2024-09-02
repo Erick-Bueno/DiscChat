@@ -1,1 +1,1 @@
-public record EmailIsAlreadyRegisteredError() : AppError("Email ja cadastrado", ErrorType.Validation.ToString(), nameof(EmailIsAlreadyRegisteredError));
+public record EmailIsAlreadyRegisteredError(string detail) : AppError(ErrorType.Validation.ToString(), nameof(EmailIsAlreadyRegisteredError));

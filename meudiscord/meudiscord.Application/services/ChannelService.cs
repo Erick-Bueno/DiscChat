@@ -14,24 +14,40 @@ public class ChannelService : IChannelService
         _convertChannelDto = convertChannelDto;
     }
 
-    public async Task<OneOf<ResponseCreateChannel,AppError>> CreateChannel(ChannelDto channel)
+    public async Task<OneOf<ResponseCreateChannel, AppError>> CreateChannel(ChannelDto channel)
     {
-        var server = _guildRepository.FindGuildByExternalId(channel.externalIdServer);
-        if(server == null)
-            return new InvalidServerError();
+        try
+        {
+            var server = _guildRepository.FindGuildByExternalId(channel.externalIdServer);
+            if (server == null)
+                return new InvalidServerError("Servidor Invalido");
 
-        var channelModel = _convertChannelDto.ConvertInChannelModel(channel, server.id);
-        var newChannel = await _channelRepository.CreateChannel(channelModel);
-        return new ResponseCreateChannel(201, "Servidor criado com sucesso", newChannel.name, newChannel.externalId);
+            var ChannelEntity = _convertChannelDto.ConvertInChannelEntity(channel, server.id);
+            var newChannel = await _channelRepository.CreateChannel(ChannelEntity);
+            return new ResponseCreateChannel(201, "Servidor criado com sucesso", newChannel.name, newChannel.externalId);
+        }
+        catch (Exception ex)
+        {
+            return new InternalServerError(ex.Message);
+        }
+
     }
 
-    public async Task<OneOf<ResponseAllChannels,AppError>> GetAllChannels(Guid externalServerId)
+    public async Task<OneOf<ResponseAllChannels, AppError>> GetAllChannels(Guid externalServerId)
     {
-        var server = _guildRepository.FindGuildByExternalId(externalServerId);
-        if(server == null)
-            return new InvalidServerError();
-        var channels = _channelRepository.GetAllChannels(server.id);
-        return new ResponseAllChannels(200, "Canais encontrados", channels);
+        try
+        {
+            var server = _guildRepository.FindGuildByExternalId(externalServerId);
+            if (server == null)
+                return new InvalidServerError("Servidor Invalido");
+            var channels = _channelRepository.GetAllChannels(server.id);
+            return new ResponseAllChannels(200, "Canais encontrados", channels);
+        }
+        catch (Exception ex)
+        {
+            return new InternalServerError(ex.Message);
+        }
+
     }
-    
+
 }

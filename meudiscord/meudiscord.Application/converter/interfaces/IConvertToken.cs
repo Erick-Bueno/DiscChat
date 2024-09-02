@@ -1,4 +1,4 @@
 public interface IConvertToken
 {
-    public TokenModel ConvertInTokenModel (string refreshToken, string email);
+    public TokenEntity ConvertInTokenEntity (string refreshToken, string email);
 }

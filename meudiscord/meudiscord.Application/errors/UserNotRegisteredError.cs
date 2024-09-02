@@ -1,1 +1,1 @@
-public record UserNotRegisteredError() : AppError("Úsuario não cadastrado", ErrorType.Business.ToString(), nameof( UserNotRegisteredError));
+public record UserNotRegisteredError(string detail) : AppError(ErrorType.Business.ToString(), nameof( UserNotRegisteredError));

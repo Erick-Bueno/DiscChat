@@ -15,23 +15,39 @@ public class MessageService : IMessageService
 
     public async Task<OneOf<ResponseSuccessDefault, AppError>> DeleteMessageInChannel(Guid externalIdChannel, Guid externalIdMessage)
     {
-        var channelModel = _channelRepository.GetChannelByExternalId(externalIdChannel);
-        if (channelModel == null)
-            return new ChannelNotFoundError();
-        var messageModel = _messageRepository.GetMessageByChannelIdAndExternalIdMessage(channelModel.id, externalIdMessage);
-        if (messageModel == null)
-            return new MessageNotFoundError();
-        await _messageRepository.DeleteMessageInChannel(messageModel);
-        return new ResponseSuccessDefault(200, "Mensagem deletada com sucesso");
+        try
+        {
+            var channelEntity = _channelRepository.GetChannelByExternalId(externalIdChannel);
+            if (channelEntity == null)
+                return new ChannelNotFoundError("Canal não encontrado");
+            var messageEntity = _messageRepository.GetMessageByChannelIdAndExternalIdMessage(channelEntity.id, externalIdMessage);
+            if (messageEntity == null)
+                return new MessageNotFoundError("Mensagem não encontrada");
+            await _messageRepository.DeleteMessageInChannel(messageEntity);
+            return new ResponseSuccessDefault(200, "Mensagem deletada com sucesso");
+        }
+        catch (Exception ex)
+        {
+            return new InternalServerError(ex.Message);
+        }
+
     }
-    
-    public OneOf<ResponseGetOldMessages,AppError> GetOldMessages(Guid externalIdChannel)
+
+    public OneOf<ResponseGetOldMessages, AppError> GetOldMessages(Guid externalIdChannel)
     {
-        var channel = _channelRepository.GetChannelByExternalId(externalIdChannel);
-        if(channel == null)
-            return new InvalidChannelError();
-    
-        var oldMessages =  _messageRepository.GetOldMessages(channel.id);
-        return new ResponseGetOldMessages(200, "Mensagens encontradas", oldMessages);
+        try
+        {
+            var channel = _channelRepository.GetChannelByExternalId(externalIdChannel);
+            if (channel == null)
+                return new InvalidChannelError("Canal não encontrado");
+
+            var oldMessages = _messageRepository.GetOldMessages(channel.id);
+            return new ResponseGetOldMessages(200, "Mensagens encontradas", oldMessages);
+        }
+        catch (Exception ex)
+        {
+            return new InternalServerError(ex.Message);
+        }
+
     }
 }

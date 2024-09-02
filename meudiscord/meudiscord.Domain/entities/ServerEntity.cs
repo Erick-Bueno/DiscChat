@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class ServerModel
+public class ServerEntity
 {
-    public ServerModel(string serverName, int idUser)
+    public ServerEntity(string serverName, int idUser)
     {
         this.serverName = serverName;
         this.idUser = idUser;
@@ -16,6 +16,6 @@ public class ServerModel
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime createdAt { get; private set; } = DateTime.UtcNow;
-    public UserModel user { get; set; }
-    public List<ChannelModel> channels { get; set;}
+    public UserEntity user { get; set; }
+    public List<ChannelEntity> channels { get; set;}
 }

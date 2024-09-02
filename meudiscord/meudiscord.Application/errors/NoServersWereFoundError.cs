@@ -1,1 +1,1 @@
-public record NoServersWereFoundError():AppError("Nenhum servidor foi encontrado", ErrorType.Business.ToString(), nameof(NoServersWereFoundError));
+public record NoServersWereFoundError(string detail):AppError(ErrorType.Business.ToString(), nameof(NoServersWereFoundError));

@@ -1,14 +1,19 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class ChannelModel
+public class TokenEntity
 {
+    public TokenEntity(string email, string token)
+    {
+        this.email = email;
+        this.token = token;
+    }
+
     public int id { get; set; }
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid externalId { get; set; } = Guid.NewGuid();
-    public string name { get; set; }
-    public int serverId { get; set; }
+    public string email { get; set; }
+    public string token { get; set; }
+    
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime createdAt { get; private set; } = DateTime.UtcNow;
-    public ServerModel server { get; set; }
-    public List<MessageModel> messages {get; set;}
 }

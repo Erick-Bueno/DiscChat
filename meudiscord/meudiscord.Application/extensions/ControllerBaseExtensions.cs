@@ -16,7 +16,7 @@ public static class ControllerBaseExtensions
                     else if (error.errorType == ErrorType.Business.ToString())
                         return controllerBase.Conflict(error);
 
-                    return controllerBase.StatusCode(500, new InternalServerError());
+                    return controllerBase.StatusCode(500, error);
                 }
             );
     }
@@ -28,7 +28,7 @@ public static class ControllerBaseExtensions
                       {
                           if (error.errorType == ErrorType.Validation.ToString())
                               return controllerBase.BadRequest(error);
-                          return controllerBase.StatusCode(500, new InternalServerError());
+                          return controllerBase.StatusCode(500, error);
                       });
     }
     public static IActionResult HandlerGetAllChannelsInServerResponse(this ControllerBase controllerBase, OneOf<ResponseAllChannels, AppError> response)
@@ -40,7 +40,7 @@ public static class ControllerBaseExtensions
                     if (error.errorType == ErrorType.Validation.ToString())
                         return controllerBase.BadRequest(error);
 
-                    return controllerBase.StatusCode(500, new InternalServerError());
+                    return controllerBase.StatusCode(500, error);
                 }
             );
     }
@@ -53,7 +53,7 @@ public static class ControllerBaseExtensions
                   if (error.errorType == ErrorType.Validation.ToString())
                       return controllerBase.BadRequest(error);
 
-                  return controllerBase.StatusCode(500, new InternalServerError());
+                  return controllerBase.StatusCode(500, error);
               }
           );
     }
@@ -65,7 +65,7 @@ public static class ControllerBaseExtensions
               {
                   if (error.errorType == ErrorType.Business.ToString())
                       return controllerBase.Conflict(error);
-                  return controllerBase.StatusCode(500, new InternalServerError());
+                  return controllerBase.StatusCode(500, error);
               }
           );
     }
@@ -77,7 +77,7 @@ public static class ControllerBaseExtensions
                 {
                     if (error.errorType == ErrorType.Business.ToString())
                         return controllerBase.Conflict(error);
-                    return controllerBase.StatusCode(500, new InternalServerError());
+                    return controllerBase.StatusCode(500, error);
                 }
 
             );
@@ -90,7 +90,7 @@ public static class ControllerBaseExtensions
               {
                   if (error.errorType == ErrorType.Business.ToString())
                       return controllerBase.Conflict(error);
-                  return controllerBase.StatusCode(500, new InternalServerError());
+                  return controllerBase.StatusCode(500, error);
               }
           );
     }
@@ -102,7 +102,7 @@ public static class ControllerBaseExtensions
             {
                 if (error.errorType == ErrorType.Validation.ToString())
                     return controllerBase.BadRequest(error);
-                return controllerBase.StatusCode(500, new InternalServerError());
+                return controllerBase.StatusCode(500, error);
             }
         );
     }
@@ -110,12 +110,12 @@ public static class ControllerBaseExtensions
     {
         return response.Match(
             response => controllerBase.Ok(response),
-            erro =>
+            error =>
             {
-                if (erro.errorType == ErrorType.Business.ToString())
-                    return controllerBase.Conflict(erro);
+                if (error.errorType == ErrorType.Business.ToString())
+                    return controllerBase.Conflict(error);
                 
-                return controllerBase.StatusCode(500, new InternalServerError());
+                return controllerBase.StatusCode(500, error);
             }
         );
     }
@@ -123,12 +123,12 @@ public static class ControllerBaseExtensions
     {
         return response.Match(
             response => controllerBase.Ok(response),
-            erro =>
+            error =>
             {
-                if (erro.errorType == ErrorType.Business.ToString())
-                        return controllerBase.Conflict(erro);
+                if (error.errorType == ErrorType.Business.ToString())
+                        return controllerBase.Conflict(error);
                 
-                return controllerBase.StatusCode(500, new InternalServerError());
+                return controllerBase.StatusCode(500, error);
             }
         );
     }
@@ -136,22 +136,22 @@ public static class ControllerBaseExtensions
     {
         return response.Match(
            response => controllerBase.Ok(response),
-           erro =>
+           error =>
            {
-               if (erro.errorType == ErrorType.Validation.ToString())
-                   return controllerBase.BadRequest(erro);
-               return controllerBase.StatusCode(500, new InternalServerError());
+               if (error.errorType == ErrorType.Validation.ToString())
+                   return controllerBase.BadRequest(error);
+               return controllerBase.StatusCode(500, error);
            }
        );
     }
     public static IActionResult HandlerGetGuildByExternalIdResponse(this ControllerBase controllerBase, OneOf<ResponseGetGuildByExternalId, AppError> response){
          return response.Match(
            response => controllerBase.Ok(response),
-           erro =>
+           error =>
            {
-               if (erro.errorType == ErrorType.Validation.ToString())
-                   return controllerBase.BadRequest(erro);
-               return controllerBase.StatusCode(500, new InternalServerError());
+               if (error.errorType == ErrorType.Validation.ToString())
+                   return controllerBase.BadRequest(error);
+               return controllerBase.StatusCode(500, error);
            }
        );
     }

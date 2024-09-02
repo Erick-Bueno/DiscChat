@@ -15,7 +15,7 @@ public class MessageServiceTest
 
     var externalIdChannel = Guid.NewGuid();
 
-    channelRepositoryMock.Setup(cr => cr.GetChannelByExternalId(externalIdChannel)).Returns((ChannelModel)null);
+    channelRepositoryMock.Setup(cr => cr.GetChannelByExternalId(externalIdChannel)).Returns((ChannelEntity)null);
 
     var result = messageService.GetOldMessages(externalIdChannel);
     Assert.IsType<InvalidChannelError>(result.AsT1);
@@ -28,7 +28,7 @@ public class MessageServiceTest
 
     var messageService = new MessageService(channelRepositoryMock.Object, messageRepositoryMock.Object);
 
-    var channelModel = new ChannelModel()
+    var channelModel = new ChannelEntity()
     {
       id = 1,
       name = "teste",
@@ -54,18 +54,18 @@ public class MessageServiceTest
 
     var messageService = new MessageService(channelRepositoryMock.Object, messageRepositoryMock.Object);
 
-    var channelModel = new ChannelModel()
+    var channelModel = new ChannelEntity()
     {
       id = 1,
       externalId = Guid.NewGuid()
     };
-    var messageModel = new MessageModel()
+    var messageModel = new MessageEntity()
     {
       id = 1,
       externalId = Guid.NewGuid()
     };
 
-    channelRepositoryMock.Setup(cr => cr.GetChannelByExternalId(channelModel.externalId)).Returns((ChannelModel)null);
+    channelRepositoryMock.Setup(cr => cr.GetChannelByExternalId(channelModel.externalId)).Returns((ChannelEntity)null);
 
     var result = await messageService.DeleteMessageInChannel(channelModel.externalId, messageModel.externalId);
 
@@ -79,19 +79,19 @@ public class MessageServiceTest
 
     var messageService = new MessageService(channelRepositoryMock.Object, messageRepositoryMock.Object);
 
-    var channelModel = new ChannelModel()
+    var channelModel = new ChannelEntity()
     {
       id = 1,
       externalId = Guid.NewGuid()
     };
-    var messageModel = new MessageModel()
+    var messageModel = new MessageEntity()
     {
       id = 1,
       externalId = Guid.NewGuid()
     };
 
     channelRepositoryMock.Setup(cr => cr.GetChannelByExternalId(channelModel.externalId)).Returns(channelModel);
-    messageRepositoryMock.Setup(mr => mr.GetMessageByChannelIdAndExternalIdMessage(channelModel.id, messageModel.externalId)).Returns((MessageModel)null);
+    messageRepositoryMock.Setup(mr => mr.GetMessageByChannelIdAndExternalIdMessage(channelModel.id, messageModel.externalId)).Returns((MessageEntity)null);
 
     var result = await messageService.DeleteMessageInChannel(channelModel.externalId, messageModel.externalId);
     Assert.IsType<MessageNotFoundError>(result.AsT1);
@@ -104,12 +104,12 @@ public class MessageServiceTest
 
     var messageService = new MessageService(channelRepositoryMock.Object, messageRepositoryMock.Object);
 
-    var channelModel = new ChannelModel()
+    var channelModel = new ChannelEntity()
     {
       id = 1,
       externalId = Guid.NewGuid()
     };
-    var messageModel = new MessageModel()
+    var messageModel = new MessageEntity()
     {
       id = 1,
       externalId = Guid.NewGuid()

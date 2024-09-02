@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public class TokenConfiguration : IEntityTypeConfiguration<TokenModel>
+public class TokenConfiguration : IEntityTypeConfiguration<TokenEntity>
 {
-    public void Configure(EntityTypeBuilder<TokenModel> builder)
+    public void Configure(EntityTypeBuilder<TokenEntity> builder)
     {
         builder.HasKey(t => t.id);
         builder.HasIndex(t => t.externalId);

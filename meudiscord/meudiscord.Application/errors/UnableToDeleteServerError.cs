@@ -1,1 +1,1 @@
-public record UnableToDeleteServerError() : AppError("Não foi possivel deletar o servidor",ErrorType.Business.ToString(),nameof(UnableToDeleteServerError));
+public record UnableToDeleteServerError(string detail) : AppError(ErrorType.Business.ToString(),nameof(UnableToDeleteServerError));

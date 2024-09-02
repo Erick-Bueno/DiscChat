@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public class MessageConfiguration : IEntityTypeConfiguration<MessageModel>
+public class MessageConfiguration : IEntityTypeConfiguration<MessageEntity>
 {
-    public void Configure(EntityTypeBuilder<MessageModel> builder)
+    public void Configure(EntityTypeBuilder<MessageEntity> builder)
     {
         builder.HasKey(m => m.id);
         builder.HasIndex(m => m.externalId);

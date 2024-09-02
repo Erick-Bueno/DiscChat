@@ -10,24 +10,24 @@ public class GuildRepository : IGuildRepository
         _appDbContext = appDbContext;
     }
 
-    public async Task CreateGuild(ServerModel guild)
+    public async Task CreateGuild(ServerEntity guild)
     {
         await _appDbContext.servers.AddAsync(guild);
         await _appDbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteGuild(ServerModel server)
+    public async Task DeleteGuild(ServerEntity server)
     {
         _appDbContext.servers.Remove(server);
         _appDbContext.SaveChanges();
     }
 
-    public ServerModel FindGuildByExternalId(Guid externalId)
+    public ServerEntity FindGuildByExternalId(Guid externalId)
     {
         return _appDbContext.servers.Where(s => s.externalId == externalId).FirstOrDefault();
     }
 
-    public ServerModel FindServerByExternalIdServerAndIdUser(Guid externalIdServer, int userId)
+    public ServerEntity FindServerByExternalIdServerAndIdUser(Guid externalIdServer, int userId)
     {
         return _appDbContext.servers.Where(s => s.externalId == externalIdServer && s.idUser == userId).FirstOrDefault();
     }

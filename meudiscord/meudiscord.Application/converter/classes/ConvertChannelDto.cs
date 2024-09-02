@@ -1,8 +1,8 @@
 public class ConvertChannelDto : IConvertChannelDto
 {
-    public ChannelModel ConvertInChannelModel(ChannelDto channel, int serverId)
+    public ChannelEntity ConvertInChannelEntity(ChannelDto channel, int serverId)
     {
-        return new ChannelModel(){
+        return new ChannelEntity(){
             serverId = serverId,
             name = channel.channelName
         };

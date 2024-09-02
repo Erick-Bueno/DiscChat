@@ -1,1 +1,1 @@
-public record ChannelNotFoundError():AppError("Canal não encontrado", ErrorType.Business.ToString(), nameof(ChannelNotFoundError));
+public record ChannelNotFoundError(string detail):AppError(ErrorType.Business.ToString(), nameof(ChannelNotFoundError));

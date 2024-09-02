@@ -1,7 +1,7 @@
 public class ConvertToken : IConvertToken
 {
-    public TokenModel ConvertInTokenModel(string refreshToken, string email)
+    public TokenEntity ConvertInTokenEntity(string refreshToken, string email)
     {
-        return new TokenModel(email, refreshToken);
+        return new TokenEntity(email, refreshToken);
     }
 }

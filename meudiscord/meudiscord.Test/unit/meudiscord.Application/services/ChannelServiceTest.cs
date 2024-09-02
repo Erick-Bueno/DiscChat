@@ -20,7 +20,7 @@ public class ChannelServiceTest
             externalIdServer = Guid.NewGuid()
         };
 
-        guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(channelDto.externalIdServer)).Returns((ServerModel)null);
+        guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(channelDto.externalIdServer)).Returns((ServerEntity)null);
 
         var result = await channelService.CreateChannel(channelDto);
         Assert.IsType<InvalidServerError>(result.AsT1);
@@ -39,16 +39,16 @@ public class ChannelServiceTest
             channelName = "teste",
             externalIdServer = Guid.NewGuid(),
         };
-        var serverModel = new ServerModel("teste", 1)
+        var serverModel = new ServerEntity("teste", 1)
         {
             id = 1
         };
-        var channelModel = new ChannelModel()
+        var channelModel = new ChannelEntity()
         {
             serverId = serverModel.id
         };
         guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(channelDto.externalIdServer)).Returns(serverModel);
-        convertChannelDtoMock.Setup(cc => cc.ConvertInChannelModel(channelDto, serverModel.id)).Returns(channelModel);
+        convertChannelDtoMock.Setup(cc => cc.ConvertInChannelEntity(channelDto, serverModel.id)).Returns(channelModel);
         channelRepositoryMock.Setup(cr => cr.CreateChannel(channelModel)).ReturnsAsync(channelModel);
 
         var result = await channelService.CreateChannel(channelDto);
@@ -72,7 +72,7 @@ public class ChannelServiceTest
             externalIdServer = Guid.NewGuid()
         };
 
-        guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(channelDto.externalIdServer)).Returns((ServerModel)null);
+        guildRepositoryMock.Setup(gr => gr.FindGuildByExternalId(channelDto.externalIdServer)).Returns((ServerEntity)null);
 
         var result = await channelService.GetAllChannels(channelDto.externalIdServer);
         Assert.IsType<InvalidServerError>(result.AsT1);
@@ -91,11 +91,11 @@ public class ChannelServiceTest
             channelName = "teste",
             externalIdServer = Guid.NewGuid(),
         };
-        var serverModel = new ServerModel("teste", 1)
+        var serverModel = new ServerEntity("teste", 1)
         {
             id = 1
         };
-        var channelModel = new ChannelModel()
+        var channelModel = new ChannelEntity()
         {
             serverId = serverModel.id
         };

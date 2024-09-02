@@ -1,1 +1,1 @@
-public record MessageNotFoundError():AppError("Mensagem não encontrada", ErrorType.Business.ToString(), nameof(MessageNotFoundError));
+public record MessageNotFoundError(string detail):AppError(ErrorType.Business.ToString(), nameof(MessageNotFoundError));
