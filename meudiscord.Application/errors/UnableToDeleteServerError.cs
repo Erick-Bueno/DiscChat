@@ -1,0 +1,1 @@
+public record UnableToDeleteServerError(string detail) : AppError(ErrorType.Business.ToString(),nameof(UnableToDeleteServerError));

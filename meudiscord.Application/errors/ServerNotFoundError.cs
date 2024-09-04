@@ -1,0 +1,1 @@
+public record ServerNotFoundError(string detail) : AppError(ErrorType.Validation.ToString(), nameof(ServerNotFoundError));

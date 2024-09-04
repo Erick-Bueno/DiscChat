@@ -1,0 +1,1 @@
+public record InvalidRefreshToken(string detail):AppError(ErrorType.Validation.ToString(), nameof(InvalidRefreshToken));
