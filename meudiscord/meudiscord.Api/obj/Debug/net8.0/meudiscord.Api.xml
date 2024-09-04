@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>meudiscord.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Name.Controllers.Auth.Login(UserLoginDto)">
+             <summary>
+             Efetuar login
+             </summary>
+             <remarks>
+             {"email": "string",
+            "password": "string"}
+             </remarks>
+             <param name="userLogin">Dados de login do usuário</param>
+             <returns>Dados do usuário</returns>
+             <response code="200">Sucesso</response>
+             <response code="400">Erro de validação</response>
+             <response code="404">Dado não encontrado</response>
+             <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.Auth.Register(UserRegisterDto)">
+            <summary>
+            Efetuar registro
+            </summary>
+            <remarks>
+            {"name": "string","email": "string","password": "string"}
+            </remarks>
+            <param name="userRegister">Dados de registro do usuário</param>
+            <returns>Dados do usuário</returns>
+            <response code="201">Usuário cadastrado com sucesso</response>
+            <response code="400">Erro de validação</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.Channels.GetAllChannelsInServer(System.Guid)">
+            <summary>
+            Buscar todos os canais de um servidor especifico
+            </summary>
+            <param name="externalIdServer">Id externo do server</param>
+            <returns>Lista de canais de um servidor especifico</returns>
+            <response code="200">Sucesso</response>
+            <response code="400">Erro de validação</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.Channels.CreateChannel(ChannelDto)">
+            <summary>
+            Criar um canal
+            </summary>
+            <remarks>
+            {"channelName": "string","externalIdServer": "Guid"}
+            </remarks>
+            <param name="channel">Dados do canal</param>
+            <returns>Canal</returns>
+            <response code="201">Canal criado com sucesso</response>
+            <response code="400">Erro de validação</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.Guilds.GetAllGuilds">
+            <summary>
+            Lista todos os servidores disponiveis
+            </summary>
+            <returns>Lista de servidores disponiveis</returns>
+            <response code="200">Sucesso</response>
+            <response code="404">Dado não encontrado</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.Guilds.CreateGuild(GuildDto)">
+            <summary>
+            Criar um servidor
+            </summary>
+            <remarks>
+            {"serverName": "string","externalIdUser": "Guid"}
+            </remarks>
+            <param name="guild">Dados do servidor</param>
+            <returns>Servidor</returns>
+            <response code="201">Servidor criado com sucesso</response>
+            <response code="404">Dado não encontrado</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.Guilds.DeleteGuild(System.Guid,System.Guid)">
+            <summary>
+            Deletar um servidor
+            </summary>
+            <param name="externalIdServer">Id externo do servidor</param>
+            <param name="externalIdUser">Id externo do usuário que esta tentando deletar o servidor</param>
+            <returns>Sucesso</returns>
+            <response code="200">Sucesso</response>
+            <response code="404">Dado não encontrado</response>
+            <response code="400">Erro de validação</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.Guilds.GetGuildByExternalId(System.Guid)">
+            <summary>
+            Retornar um unico servidor com base no seu external id
+            </summary>
+            <param name="externalIdServer">Id externo do servidor</param>
+            <returns>Servidor</returns>]
+            <response code="200">Sucesso</response>
+            <response code="400">Erro de validação</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.Jwt.RefreshToken(JwtDto)">
+            <summary>
+            Gerar novos tokens jwt
+            </summary>
+            <remarks>{"refreshToken":"string"}</remarks>
+            <param name="refreshToken">Token de atualização</param>
+            <returns>Novos tokens</returns>
+            <response code="200">Servidor criado com sucesso</response>
+            <response code="400">Erro de validação</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.Messages.GetOldMessages(System.Guid)">
+            <summary>
+             Buscar mensagens antigas em um canal
+            </summary>
+            <param name="externalIdChannel">Id externo do canal</param>
+            <returns>Lista de mensagens antigas em um chat</returns>
+            <response code="200">Sucesso</response>
+            <response code="400">Erro de validação</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.Messages.DeleteMessageInChannel(System.Guid,System.Guid)">
+            <summary>
+            Deletar uma mensagem no canal
+            </summary>
+            <param name="externalIdChannel">Id externo do canal</param>
+            <param name="externalIdMessage">Id externo da mensagem</param>
+            <returns>Sucesso</returns>
+            <response code="200">Sucesso</response>
+            <response code="404">Dado não encontrado</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+        <member name="M:Name.Controllers.User.FindUserAuthenticated(System.Guid)">
+            <summary>
+            Busca dados do usuário autenticado
+            </summary>
+            <param name="externalId">Id externo do usuário autenticado</param>
+            <returns>Dados do usuário autenticado</returns>
+            <response code="200">Sucesso</response>
+            <response code="404">Dado não encontrado</response>
+            <response code="500">Erro interno do servidor</response>
+        </member>
+    </members>
+</doc>

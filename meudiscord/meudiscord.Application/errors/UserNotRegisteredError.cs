@@ -1,0 +1,1 @@
+public record UserNotRegisteredError(string detail) : AppError(ErrorType.Business.ToString(), nameof( UserNotRegisteredError));

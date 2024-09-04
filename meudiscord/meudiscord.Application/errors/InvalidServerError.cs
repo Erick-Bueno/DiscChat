@@ -1,0 +1,1 @@
+public record InvalidServerError(string detail):AppError(ErrorType.Validation.ToString(), nameof(InvalidServerError));

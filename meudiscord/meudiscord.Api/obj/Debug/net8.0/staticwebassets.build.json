@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ElMS53sAxvH2J7M1FsXR6WGc4p5oANl9Rj8cSYvSQWA=",
+  "Source": "meudiscord.Api",
+  "BasePath": "_content/meudiscord.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
