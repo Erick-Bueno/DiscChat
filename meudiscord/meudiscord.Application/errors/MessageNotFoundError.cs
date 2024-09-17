@@ -1,1 +1,0 @@
-public record MessageNotFoundError(string detail):AppError(ErrorType.Business.ToString(), nameof(MessageNotFoundError));

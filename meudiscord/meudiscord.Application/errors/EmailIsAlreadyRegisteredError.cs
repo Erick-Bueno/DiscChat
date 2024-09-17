@@ -1,1 +1,0 @@
-public record EmailIsAlreadyRegisteredError(string detail) : AppError(ErrorType.Validation.ToString(), nameof(EmailIsAlreadyRegisteredError));

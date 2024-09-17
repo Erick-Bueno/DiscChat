@@ -1,1 +1,0 @@
-public record InternalServerError(string detail):AppError(ErrorType.InternalServer.ToString(),nameof(InternalServerError));

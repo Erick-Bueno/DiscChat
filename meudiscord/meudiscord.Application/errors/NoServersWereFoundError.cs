@@ -1,1 +1,0 @@
-public record NoServersWereFoundError(string detail):AppError(ErrorType.Business.ToString(), nameof(NoServersWereFoundError));

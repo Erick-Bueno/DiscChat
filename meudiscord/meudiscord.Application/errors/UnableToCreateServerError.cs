@@ -1,1 +1,0 @@
-public record UnableToCreateServerError(string detail):AppError(ErrorType.Business.ToString(),nameof(UnableToCreateServerError));
